@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intro — Mu Jiun Shie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@300;400&family=Commissioner:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Figtree:wght@500;600&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --ease: cubic-bezier(1, 0.005, 0.015, 0.995);
+      --dur: 0.8s;
+      --intro-ink: #512E08;
+    }
+
+    /* ── VIEWPORT CONTAINER ── */
+    .stage {
+      position: relative;
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* ── LABEL ── */
+    .label {
+      position: absolute;
+      top: 6.3%;
+      left: 4.2%;
+      font-family: 'Azeret Mono', monospace;
+      font-weight: 300;
+      font-size: clamp(12px, 0.94vw, 18px);
+      line-height: 1.2;
+      color: var(--intro-ink);
+      z-index: 10;
+    }
+
+    /* ── TITLES ── */
+    .title {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .title-hello,
+    .title-mu {
+      position: absolute;
+      color: var(--intro-ink);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+      white-space: nowrap;
+    }
+
+    .title-hello {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: clamp(200px, 46.25vw, 888px);
+      line-height: 1.2;
+      opacity: 0.1;
+      transform: scale(1);
+    }
+
+    .title-mu {
+      font-family: 'Commissioner', sans-serif;
+      font-weight: 500;
+      font-size: clamp(36px, 4.58vw, 88px);
+      line-height: 1.2;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    /* Slide 2+: Hello out, "This is Mu" in */
+    .stage.slide-2 .title-hello,
+    .stage.slide-3 .title-hello,
+    .stage.slide-4 .title-hello {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+
+    .stage.slide-2 .title-mu {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Slide 3+: "This is Mu" out */
+    .stage.slide-3 .title-mu,
+    .stage.slide-4 .title-mu {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+
+    /* ── BIO TEXT ── */
+    .bio {
+      position: absolute;
+      left: 0;
+      top: 44.44%;
+      width: 100%;
+      text-align: center;
+      color: var(--intro-ink);
+      font-size: clamp(16px, 1.5625vw, 30px);
+      line-height: 1.7;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out, font-family 0.3s ease-out, font-weight 0.3s ease-out;
+      font-family: 'Commissioner', sans-serif;
+      font-weight: 400;
+    }
+
+    .stage.slide-3 .bio,
+    .stage.slide-4 .bio {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slide 4: font shifts to Figtree */
+    .stage.slide-4 .bio {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+    }
+
+    /* ── LOCATION LABELS ── */
+    .loc {
+      position: absolute;
+      font-family: 'Azeret Mono', monospace;
+      font-weight: 400;
+      font-size: clamp(12px, 1.04vw, 20px);
+      color: var(--intro-ink);
+      z-index: 9;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .loc.vertical {
+      writing-mode: vertical-rl;
+    }
+
+    .stage.slide-3 .loc,
+    .stage.slide-4 .loc {
+      opacity: 1;
+    }
+
+    .loc[data-loc="yosemite"]      { left:  8.28%; top: 14.63%; }
+    .loc[data-loc="tokyo"]         { left: 13.85%; top: 91.76%; }
+    .loc[data-loc="san-francisco"] { left: 72.40%; top: 17.87%; }
+    .loc[data-loc="monterey"]      { left: 86.93%; top: 45.74%; }
+    .loc[data-loc="wharton"]       { left: 88.80%; top: 84.72%; }
+    .loc[data-loc="buffet"]        { left: 54.95%; top: 82.50%; }
+
+    /* ── IMAGE CARDS ── */
+    .card {
+      position: absolute;
+      background: #e0dcd6;
+      border-radius: clamp(16px, 2.67vw, 51px);
+      transition:
+        left var(--dur) var(--ease),
+        top var(--dur) var(--ease),
+        width var(--dur) var(--ease),
+        height var(--dur) var(--ease),
+        transform var(--dur) var(--ease);
+      will-change: left, top, width, height, transform;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* ── SLIDE 1: CLUSTERED (Hello) ── */
+    .card[data-i="1"] { left: 47.90%; top: 52.02%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate(  0.67deg); z-index: 8; }
+    .card[data-i="2"] { left: 48.98%; top: 52.69%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate(  5.70deg); z-index: 7; }
+    .card[data-i="3"] { left: 45.70%; top: 52.03%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate( -5.28deg); z-index: 6; }
+    .card[data-i="4"] { left: 44.97%; top: 52.68%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate(-14.88deg); z-index: 5; }
+    .card[data-i="5"] { left: 44.14%; top: 53.83%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate(-20.67deg); z-index: 4; }
+    .card[data-i="6"] { left: 50.02%; top: 52.95%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate( 14.60deg); z-index: 3; }
+    .card[data-i="7"] { left: 50.76%; top: 53.17%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate( 20.28deg); z-index: 2; }
+    .card[data-i="8"] { left: 51.37%; top: 53.92%; width: 12.14%; height: 34.15%; transform: translate(-50%, -50%) rotate( 24.63deg); z-index: 1; }
+
+    /* ── SLIDE 2+: EXPANDED (This is Mu / Bio) ── */
+    .stage.slide-2 .card[data-i="1"],
+    .stage.slide-3 .card[data-i="1"],
+    .stage.slide-4 .card[data-i="1"] { left: 31.09%; top: 84.51%; width: 16.36%; height: 39.84%; transform: translate(-50%, -50%) rotate( 10.40deg); }
+
+    .stage.slide-2 .card[data-i="2"],
+    .stage.slide-3 .card[data-i="2"],
+    .stage.slide-4 .card[data-i="2"] { left: 86.15%; top: 25.86%; width: 16.36%; height: 40.80%; transform: translate(-50%, -50%) rotate( -8.56deg); }
+
+    .stage.slide-2 .card[data-i="3"],
+    .stage.slide-3 .card[data-i="3"],
+    .stage.slide-4 .card[data-i="3"] { left: 18.68%; top: 26.62%; width: 16.36%; height: 43.79%; transform: translate(-50%, -50%) rotate( 20.41deg); }
+
+    .stage.slide-2 .card[data-i="4"],
+    .stage.slide-3 .card[data-i="4"],
+    .stage.slide-4 .card[data-i="4"] { left: 65.23%; top: 16.12%; width: 16.36%; height: 40.96%; transform: translate(-50%, -50%) rotate( 11.01deg); }
+
+    .stage.slide-2 .card[data-i="5"],
+    .stage.slide-3 .card[data-i="5"],
+    .stage.slide-4 .card[data-i="5"] { left: 14.19%; top: 69.78%; width: 16.36%; height: 43.75%; transform: translate(-50%, -50%) rotate(-11.91deg); }
+
+    .stage.slide-2 .card[data-i="6"],
+    .stage.slide-3 .card[data-i="6"],
+    .stage.slide-4 .card[data-i="6"] { left: 81.87%; top: 76.25%; width: 16.36%; height: 40.25%; transform: translate(-50%, -50%) rotate( 12.66deg); }
+
+    .stage.slide-2 .card[data-i="7"],
+    .stage.slide-3 .card[data-i="7"],
+    .stage.slide-4 .card[data-i="7"] { left: 65.61%; top: 87.37%; width: 16.36%; height: 40.25%; transform: translate(-50%, -50%) rotate( -9.18deg); }
+
+    .stage.slide-2 .card[data-i="8"],
+    .stage.slide-3 .card[data-i="8"],
+    .stage.slide-4 .card[data-i="8"] { left: 36.52%; top: 13.74%; width: 16.36%; height: 40.93%; transform: translate(-50%, -50%) rotate(-11.25deg); }
+
+    /* Slide 2→3 transition uses faster ease-out */
+    .stage.slide-3 .card,
+    .stage.slide-4 .card {
+      transition-duration: 0.3s;
+      transition-timing-function: ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    <nav class="side">
+      <div class="side-section" style="margin-bottom: 20px;">
+        <p class="side-label">Page</p>
+        <div class="dropdown" id="pageDropdown">
+          <div class="dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Intro</div>
+          <div class="dropdown-menu">
+            <a class="dropdown-option current" href="intro.html">Intro</a>
+            <a class="dropdown-option" href="project1.html">Project 1</a>
+            <a class="dropdown-option" href="project2.html">Project 2</a>
+            <a class="dropdown-option" href="project3.html">Project 3</a>
+          </div>
+        </div>
+      </div>
+      <div class="side-section">
+        <p class="side-label">Agenda</p>
+        <a class="nav-item active" data-slide="1">Hello</a>
+        <a class="nav-item" data-slide="2">This is Mu</a>
+        <a class="nav-item" data-slide="3">Bio</a>
+        <a class="nav-item" data-slide="4">Bio Alt</a>
+      </div>
+    </nav>
+
+  <div class="stage slide-1" id="stage">
+    <span class="label">Intro</span>
+
+    <div class="title">
+      <span class="title-hello">Hello</span>
+      <span class="title-mu">This is Mu</span>
+    </div>
+
+    <p class="bio">
+      I'm Mu from Taiwan and live in the Bay Area now, I love ✈️ traveling<br>
+      and 📷 documenting life through my Fujifilm camera<br>
+      <br>
+      I'm also a (maine coon) 🐱 cat person and a creator sharing<br>
+      my cat videos (@coon_buffet)
+    </p>
+
+    <!-- Location labels -->
+    <span class="loc vertical" data-loc="yosemite">yosemite</span>
+    <span class="loc" data-loc="tokyo">tokyo</span>
+    <span class="loc vertical" data-loc="san-francisco">san francisco</span>
+    <span class="loc" data-loc="monterey">monterey</span>
+    <span class="loc vertical" data-loc="wharton">wharton</span>
+    <span class="loc vertical" data-loc="buffet">buffet</span>
+
+    <!-- Render order: back (8) → front (1), matching Figma z-order -->
+    <div class="card" data-i="8"><img src="images/8.png" alt="" /></div>
+    <div class="card" data-i="7"><img src="images/7.png" alt="" /></div>
+    <div class="card" data-i="6"><img src="images/6.png" alt="" /></div>
+    <div class="card" data-i="5"><img src="images/5.png" alt="" /></div>
+    <div class="card" data-i="4"><img src="images/4.png" alt="" /></div>
+    <div class="card" data-i="3"><img src="images/3.png" alt="" /></div>
+    <div class="card" data-i="2"><img src="images/2.png" alt="" /></div>
+    <div class="card" data-i="1"><img src="images/1.png" alt="" /></div>
+  </div>
+
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const slideNavItems = document.querySelectorAll('.nav-item[data-slide]');
+    let slide = 1;
+
+    function goToSlide(n) {
+      slide = n;
+      stage.className = 'stage slide-' + slide;
+      if (slide >= 3) {
+        stage.style.setProperty('--dur', '0.3s');
+        stage.style.setProperty('--ease', 'ease-out');
+      } else {
+        stage.style.setProperty('--dur', '0.8s');
+        stage.style.setProperty('--ease', 'cubic-bezier(1, 0.005, 0.015, 0.995)');
+      }
+      slideNavItems.forEach(item => {
+        item.classList.toggle('active', parseInt(item.dataset.slide) === slide);
+      });
+    }
+
+    stage.addEventListener('click', () => {
+      if (slide < 4) goToSlide(slide + 1);
+    });
+
+    slideNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        goToSlide(parseInt(item.dataset.slide));
+      });
+    });
+
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('pageDropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>
