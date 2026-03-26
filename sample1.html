@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hygge Trip Planner — Portfolio Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    b { color: var(--accent); }
+
+    :root {
+      --bg: #FBFBFB;
+      --surface: #F4F4F6;
+      --ink: #1A1A2E;
+      --ink2: #3D3D5C;
+      --ink3: #8888A0;
+      --accent: #7B83EB;
+      --accent-light: #F0F1FD;
+      --border: rgba(60,60,80,0.1);
+      --border2: rgba(60,60,80,0.06);
+      --title: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --nav-w: 200px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .shell { display: flex; height: 100vh; }
+
+    .side {
+      width: var(--nav-w);
+      flex-shrink: 0;
+      border-right: 1px solid var(--border2);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 20;
+      background: var(--bg);
+    }
+
+    .side-section { padding: 0 16px; }
+
+    .side-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      padding-right: 24px;
+      position: relative;
+      user-select: none;
+    }
+
+    .dropdown-toggle::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238888A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      transition: transform 0.15s ease;
+    }
+
+    .dropdown.open .dropdown-toggle::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .dropdown-toggle:hover { border-color: var(--ink3); }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    .dropdown.open .dropdown-menu { display: block; }
+
+    .dropdown-option {
+      display: block;
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+
+    .dropdown-option:hover { background: var(--surface); }
+    .dropdown-option.current { font-weight: 600; color: var(--accent); }
+
+    .nav-item {
+      display: block;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      line-height: 1.4;
+      margin-bottom: 1px;
+    }
+
+    .nav-item:hover { color: var(--ink); background: var(--surface); }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: var(--accent-light);
+      font-weight: 600;
+    }
+
+    .nav-sub {
+      padding-left: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .nav-sub.open { opacity: 1; }
+
+    .nav-sub .nav-item {
+      font-size: 12px;
+      font-weight: 400;
+      padding: 4px 8px;
+      color: var(--ink3);
+    }
+
+    .nav-sub .nav-item.active {
+      color: var(--accent);
+      background: transparent;
+      font-weight: 600;
+    }
+
+    .nav-sub .nav-item:hover { color: var(--ink2); background: transparent; }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .side::-webkit-scrollbar { width: 4px; }
+    .side::-webkit-scrollbar-track { background: transparent; }
+    .side::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+    }
+
+    .project-title {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 32px 64px 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      pointer-events: none;
+      height: 0;
+      overflow: visible;
+    }
+
+    .page-counter {
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--ink3);
+    }
+
+    .panel {
+      height: 100vh;
+      scroll-snap-align: start;
+      padding: 32px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .panel-inner {
+      width: 100%;
+      max-width: 1080px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .overview-header { margin-bottom: 20px; }
+
+    .overview-company {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .overview-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+
+    .overview-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .overview-body {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .overview-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .overview-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .overview-right .slide-img {
+      margin: 0;
+      height: 75%;
+    }
+
+    .overview-right .slide-img img {
+      object-fit: cover;
+    }
+
+    .overview-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .overview-layer.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .overview-layer.active > *:nth-child(1) { transition-delay: 0s; }
+    .overview-layer.active > *:nth-child(2) { transition-delay: 0.05s; }
+
+    .overview-layer .meta-block {
+      padding: 16px 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .meta-block {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overview-layer.active .meta-block:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .meta-block:nth-child(2) { transition-delay: 0.2s; }
+    .overview-layer.active .meta-block:nth-child(3) { transition-delay: 0.3s; }
+
+    .role-timeline {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 8px 0;
+    }
+
+    .role-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .role-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .role-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      width: 20px;
+      text-align: center;
+    }
+
+    .role-text {
+      font-family: var(--title);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .overview-layer.active .role-timeline > .role-item:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(2) { transition-delay: 0.15s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(3) { transition-delay: 0.2s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(4) { transition-delay: 0.25s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(5) { transition-delay: 0.3s; }
+
+    .stat-number {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-number {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .overview-layer.active .stat-card:nth-child(1) .stat-number { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) .stat-number { transition-delay: 0.3s; }
+    .overview-layer.active .stat-card:nth-child(3) .stat-number { transition-delay: 0.45s; }
+
+    .stat-desc {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      padding: 0;
+      background: transparent;
+      border-radius: var(--radius);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overview-layer.active .stat-card:nth-child(1) { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) { transition-delay: 0.25s; }
+    .overview-layer.active .stat-card:nth-child(3) { transition-delay: 0.35s; }
+
+    .stat-card .stat-number { font-size: 56px; margin-bottom: 6px; }
+    .stat-card .stat-desc { font-size: 16px; }
+
+    .slide-img {
+      width: 100%;
+      background: transparent;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .slide-img img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 24px;
+      object-fit: contain;
+    }
+
+    .divider-page {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .divider-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .divider-desc {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink2);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    }
+
+    .divider-page.visible .divider-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .content-h2 {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 24px 0 12px;
+    }
+
+    .content-h2:first-child { margin-top: 0; }
+
+    .content-p {
+      font-family: var(--title);
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .content-desc {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink3);
+      line-height: 1.5;
+      padding-top: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .single-col .content-desc { padding-top: 4px; }
+
+    .content-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 8px 0 12px;
+    }
+
+    .content-list li {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .content-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .footnote {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.5;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    .meta-block-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .split-text { display: flex; flex-direction: column; justify-content: center; }
+
+    .single-col {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      padding-top: 48px;
+      gap: 16px;
+    }
+
+    .finding-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .finding-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .finding-label {
+      font-family: var(--title);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .finding-body {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .finding-fix {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.2px;
+    }
+
+    .check-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .check-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      background: var(--surface);
+      padding: 6px 14px;
+      border-radius: 20px;
+      line-height: 1.3;
+    }
+
+    .check-tag::before {
+      content: '';
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(-45deg);
+      flex-shrink: 0;
+    }
+
+    .single-col .slide-img {
+      margin: 0;
+      background: transparent;
+    }
+
+    .metric-number {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 12px 0;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      text-align: left;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .compare-table th {
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .compare-table td { color: var(--ink); line-height: 1.5; }
+    .compare-table tbody tr:hover { background: rgba(0,0,0,0.015); }
+    .compare-table .check { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    <nav class="side">
+      <div class="side-section" style="margin-bottom: 20px;">
+        <p class="side-label">Deck</p>
+        <div class="dropdown" id="pageDropdown">
+          <div class="dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Sample 1</div>
+          <div class="dropdown-menu">
+            <a class="dropdown-option current" href="sample1.html">Sample 1 — Hygge</a>
+            <a class="dropdown-option" href="sample2.html">Sample 2 — Airbnb</a>
+            <a class="dropdown-option" href="sample3.html">Sample 3 — Airbnb Connections</a>
+            <a class="dropdown-option" href="workshop.html">Workshop</a>
+            <a class="dropdown-option" href="exercises.html">Exercises</a>
+          </div>
+        </div>
+      </div>
+      <div class="side-section">
+        <p class="side-label">Agenda</p>
+
+        <a class="nav-item active" data-target="overview-project">Overview</a>
+        <div class="nav-sub" data-parent="overview">
+          <a class="nav-item" data-target="overview-about">About</a>
+          <a class="nav-item" data-target="overview-role">My Contributions</a>
+          <a class="nav-item" data-target="overview-impact">Impact</a>
+        </div>
+
+        <a class="nav-item" data-target="context-divider">Context</a>
+        <div class="nav-sub" data-parent="context">
+          <a class="nav-item" data-target="context-problem">The Problem</a>
+          <a class="nav-item" data-target="context-data">Data Research</a>
+        </div>
+
+        <a class="nav-item" data-target="research-divider">Research</a>
+        <div class="nav-sub" data-parent="research">
+          <a class="nav-item" data-target="research-interviews">User Interviews</a>
+          <a class="nav-item" data-target="research-journey">Journey Mapping</a>
+          <a class="nav-item" data-target="research-focus">Problem Focus</a>
+        </div>
+
+        <a class="nav-item" data-target="design-divider">Design</a>
+        <div class="nav-sub" data-parent="design">
+          <a class="nav-item" data-target="design-service">Service Design</a>
+          <a class="nav-item" data-target="design-wireframe">Wireframe</a>
+          <a class="nav-item" data-target="design-product">Product Design</a>
+        </div>
+
+        <a class="nav-item" data-target="ship-divider">Implementation</a>
+        <div class="nav-sub" data-parent="ship">
+          <a class="nav-item" data-target="ship-database">Database</a>
+          <a class="nav-item" data-target="ship-persona">Persona Matching</a>
+          <a class="nav-item" data-target="ship-ml">Machine Learning</a>
+        </div>
+
+        <a class="nav-item" data-target="impact-divider">Impact</a>
+        <div class="nav-sub" data-parent="impact">
+          <a class="nav-item" data-target="impact-metrics">Metrics</a>
+          <a class="nav-item" data-target="impact-takeaways">Takeaways</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main" id="main">
+
+      <p class="project-title"><span class="page-counter" id="pageCounter">1/20</span> &bull; Hygge Trip Planner</p>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <section class="panel" id="overview-project" data-group="overview">
+        <div class="panel-inner">
+          <div class="overview-body">
+            <div class="overview-left">
+              <div class="overview-layer active" id="layer-overview">
+                <div class="overview-header">
+                  <p class="overview-company">Academic Project</p>
+                  <h1 class="overview-title">Hygge<br>Trip Planner</h1>
+                  <p class="overview-subtitle">An all-in-one app that simplifies trip planning from <b>53 days to 10 minutes</b></p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-about">
+                <div class="meta-block">
+                  <p class="content-p">Simplify trip planning by <b>integrating multiple services</b>, enabling streamlined user flow, and providing personalized recommendations</p>
+                  <p class="footnote">Lead Designer, Oct 2019. Integrative system combining research, service design, and machine learning.</p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-role">
+                <div class="meta-block">
+                  <p class="meta-block-label">My Contributions</p>
+                  <ul class="role-timeline">
+                    <li class="role-item"><span class="role-icon">&#x1f50d;</span><span class="role-text">User &amp; Data Research</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f9e0;</span><span class="role-text">Service Flow Design</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f3a8;</span><span class="role-text">Wireframe &amp; UI Design</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f4f1;</span><span class="role-text">Prototyping &amp; Testing</span></li>
+                    <li class="role-item"><span class="role-icon">&#x2699;</span><span class="role-text">Technical Implementation</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-impact">
+                <div class="meta-block">
+                  <p class="meta-block-label">Key Numbers</p>
+                  <div class="stat-grid">
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="53" data-suffix=" days">0 days</p>
+                      <p class="stat-desc">Average time travelers spend planning</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="28" data-suffix=" sites">0 sites</p>
+                      <p class="stat-desc">Websites visited during planning</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="10" data-suffix=" min">0 min</p>
+                      <p class="stat-desc">Target planning time with Hygge</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview-right">
+              <div class="slide-img">
+                <img src="images/hygge/hero.jpg" alt="Hygge Trip Planner" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="overview-about" data-group="overview" style="display:none"></section>
+      <section class="panel" id="overview-role" data-group="overview" style="display:none"></section>
+      <section class="panel" id="overview-impact" data-group="overview" style="display:none"></section>
+
+      <!-- ═══ CONTEXT ═══ -->
+      <section class="panel" id="context-divider" data-group="context">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Context</p>
+            <p class="divider-desc">Why trip planning is broken</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="context-problem" data-group="context">
+        <div class="panel-inner">
+          <div class="single-col" style="justify-content:center;padding-top:0;">
+            <div>
+              <p class="section-title">The Problem</p>
+              <p class="content-p">Planning a trip is a <b>marathon in a labyrinth</b> — explosive information, endless decisions, and fragmented tools</p>
+              <ul class="content-list">
+                <li>Information overload across dozens of platforms</li>
+                <li>Decision fatigue from comparing options manually</li>
+                <li>No single tool to organize and integrate everything</li>
+              </ul>
+              <p class="footnote">Research shows planning a trip can make you happier than actually taking it — but the complexity kills that joy.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="context-data" data-group="context">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;justify-content:center;height:100%;gap:24px">
+            <div>
+              <p class="section-title">Data Research</p>
+              <p class="content-p">Key data points that shaped the <b>product direction</b></p>
+            </div>
+            <div class="metric-grid" style="grid-template-columns:1fr 1fr 1fr;gap:20px">
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">53 days</p>
+                <p class="metric-label">Average time spent planning across 28 websites and 76 sessions</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">57%</p>
+                <p class="metric-label">Of U.S. travelers want tailored info based on personal preferences</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">69%</p>
+                <p class="metric-label">Of leisure travelers feel anxiety about not finding the best deal</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">50%+</p>
+                <p class="metric-label">Check social media for travel tips and inspiration</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">200%</p>
+                <p class="metric-label">Growth in "near me" mobile searches for events, food, attractions</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-number" style="font-size:36px">#1</p>
+                <p class="metric-label">Price is the most important factor in booking for mobile users</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ RESEARCH ═══ -->
+      <section class="panel" id="research-divider" data-group="research">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Research</p>
+            <p class="divider-desc">Understanding real traveler pain points</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="research-interviews" data-group="research">
+        <div class="panel-inner">
+          <div class="single-col" style="justify-content:center;padding-top:0;">
+            <div>
+              <p class="section-title">User Interviews</p>
+              <p class="content-p">People spend excessive time <b>researching across multiple platforms</b> trying to narrow down options</p>
+              <p class="content-desc">They need to digest a huge volume of information and try many ways to access ideal options. Eventually, countless decision-making causes fatigue and anxiety.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="research-journey" data-group="research">
+        <div class="panel-inner">
+          <div class="single-col">
+            <div>
+              <p class="section-title">User Journey Mapping</p>
+              <p class="content-p">Mapped the full trip-planning journey to identify <b>pain points and opportunities</b></p>
+            </div>
+            <div class="slide-img">
+              <img src="images/hygge/journey_map.jpg" alt="User journey map" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="research-focus" data-group="research">
+        <div class="panel-inner">
+          <div class="single-col" style="justify-content:center;padding-top:0;">
+            <div>
+              <p class="section-title">Problem Focus</p>
+              <p class="content-p">Develop a trip planner that helps users <b>customize a trip within 10 minutes</b></p>
+            </div>
+            <div class="finding-cards">
+              <div class="finding-card">
+                <p class="finding-label">High Digital Footprint</p>
+                <p class="finding-body">Too much time spent finding and switching between planning services</p>
+                <p class="finding-fix">All-in-one platform for flights, stays, attractions, restaurants</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Decision Fatigue</p>
+                <p class="finding-body">Endless keyword searches and manual comparison of options</p>
+                <p class="finding-fix">Smart filters + top 10 matched recommendations</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Manual Organization</p>
+                <p class="finding-body">Arranging schedules and cross-analyzing info by hand</p>
+                <p class="finding-fix">Auto-generated itinerary by day and location</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Pre-Trip Anxiety</p>
+                <p class="finding-body">Complex process creates stress instead of excitement</p>
+                <p class="finding-fix">Shareable trips via digital and tangible mediums</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ DESIGN ═══ -->
+      <section class="panel" id="design-divider" data-group="design">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Design</p>
+            <p class="divider-desc">From service flow to product design</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-service" data-group="design">
+        <div class="panel-inner">
+          <div class="single-col">
+            <div>
+              <p class="section-title">Service Design</p>
+              <p class="content-p">A <b>four-step flow</b> — build persona, input requirements, select options, get itinerary</p>
+              <div class="check-row">
+                <span class="check-tag">Persona-based matching</span>
+                <span class="check-tag">Smart filters</span>
+                <span class="check-tag">Top 10 recommendations</span>
+                <span class="check-tag">Auto-generated schedule</span>
+              </div>
+            </div>
+            <div class="slide-img">
+              <img src="images/hygge/service_design.jpg" alt="Service design flow" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-wireframe" data-group="design">
+        <div class="panel-inner">
+          <div class="single-col">
+            <div>
+              <p class="section-title">Wireframe</p>
+              <p class="content-p">Low-fidelity wireframes to validate <b>user flow and information architecture</b></p>
+            </div>
+            <div class="slide-img">
+              <img src="images/hygge/wireframe.jpg" alt="Wireframe explorations" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-product" data-group="design" data-nav="design-product">
+        <div class="panel-inner">
+          <div class="single-col" style="padding-top:32px;gap:12px;">
+            <div>
+              <p class="section-title">Onboarding + Create Persona</p>
+              <p class="content-p">Users create an account and <b>build their Persona</b> to digitize preferences</p>
+            </div>
+            <div style="display:flex;gap:16px;flex:1;min-height:0;justify-content:center;align-items:center;padding-bottom:8px">
+              <img src="images/hygge/app_1_1.jpg" alt="Sign up screen" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_1_2.jpg" alt="Persona setup" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_1_3.jpg" alt="Persona complete" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-product-2" data-group="design" data-nav="design-product">
+        <div class="panel-inner">
+          <div class="single-col" style="padding-top:32px;gap:12px;">
+            <div>
+              <p class="section-title">Search by Destination / Date</p>
+              <p class="content-p">Explore trips matched to your Persona with <b>search and smart filters</b></p>
+            </div>
+            <div style="display:flex;gap:16px;flex:1;min-height:0;justify-content:center;align-items:center;padding-bottom:8px">
+              <img src="images/hygge/app_2_1.jpg" alt="Home and search" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_2_2.jpg" alt="Search results" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_2_3.jpg" alt="Destination detail" style="height:100%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-product-3" data-group="design" data-nav="design-product">
+        <div class="panel-inner">
+          <div class="single-col" style="padding-top:32px;gap:12px;">
+            <div>
+              <p class="section-title">Book Everything for Your Trip</p>
+              <p class="content-p">Flights, stays, tours, and restaurants — <b>all in one booking flow</b></p>
+            </div>
+            <div style="display:flex;gap:12px;flex:1;min-height:0;justify-content:center;align-items:center;padding-bottom:8px">
+              <img src="images/hygge/app_3_1_1.jpg" alt="Flight booking" style="max-height:100%;max-width:18%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_3_2.jpg" alt="Stay booking" style="max-height:100%;max-width:18%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_3_3.jpg" alt="Tour selection" style="max-height:100%;max-width:18%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_3_4.jpg" alt="Restaurant booking" style="max-height:100%;max-width:18%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+              <img src="images/hygge/app_3_5.jpg" alt="Trip itinerary" style="max-height:100%;max-width:18%;border-radius:16px;object-fit:contain;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ IMPLEMENTATION ═══ -->
+      <section class="panel" id="ship-divider" data-group="ship">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Implementation</p>
+            <p class="divider-desc">How Hygge works under the hood</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="ship-database" data-group="ship">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Database</p>
+              <p class="content-p">Hygge <b>scrapes data</b> from Google, TripAdvisor, and Wikipedia to build its initial database of popular destinations</p>
+              <p class="content-desc">This gives Hygge basic information about sites in each city as a foundation for recommendations.</p>
+            </div>
+            <div>
+              <div class="slide-img">
+                <img src="images/hygge/tech_database.jpg" alt="Database architecture" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="ship-persona" data-group="ship">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Persona Matching</p>
+              <p class="content-p">Users build a <b>Persona on registration</b> — Hygge uses euclidean distance to calculate match scores</p>
+              <p class="content-desc">The Persona digitizes preferences and interests, which Hygge uses for personalized recommendation analysis.</p>
+            </div>
+            <div>
+              <div class="slide-img">
+                <img src="images/hygge/tech_persona.jpg" alt="Persona matching system" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="ship-ml" data-group="ship">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Machine Learning</p>
+              <p class="content-p">Hygge uses <b>ML to continuously update</b> scoring for both database and user profiles</p>
+              <p class="content-desc">When users don't know what they want, Hygge revises matching values based on behavior and decisions over time.</p>
+            </div>
+            <div>
+              <div class="slide-img">
+                <img src="images/hygge/tech_ml.jpg" alt="Machine learning optimization" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ IMPACT ═══ -->
+      <section class="panel" id="impact-divider" data-group="impact">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Impact</p>
+            <p class="divider-desc">Measuring the improvement</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="impact-metrics" data-group="impact">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;justify-content:center;height:100%;gap:24px">
+            <div>
+              <p class="section-title">Key Metrics</p>
+              <p class="content-p">Hygge reduced planning complexity and <b>improved user satisfaction</b></p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+              <div style="background:var(--surface);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:8px">
+                <p class="metric-number">53 → 4</p>
+                <p class="metric-label">Planning steps reduced from 53 days across 28 sites to 4 steps in one app</p>
+              </div>
+              <div style="background:var(--surface);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:8px">
+                <p class="metric-number">10 min</p>
+                <p class="metric-label">Target time to customize a full trip with personalized recommendations</p>
+              </div>
+              <div style="background:var(--surface);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:8px">
+                <p class="metric-number">4.5/5</p>
+                <p class="metric-label">User satisfaction rating on the streamlined planning experience</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="impact-takeaways" data-group="impact">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Key Takeaways</p>
+              <p class="content-p"><b>Personalization and tangibility</b> are the next frontier for digital experiences</p>
+            </div>
+            <div>
+              <ul class="content-list">
+                <li><b>Personalization will be the next trend</b> — as ML matures, fewer steps should yield more relevant results</li>
+                <li>The challenge: <b>how to get the most related data</b> with the fewest user inputs</li>
+                <li><b>Digital convenience can remove experience</b> — happy memories should be delivered in tangible form when possible</li>
+                <li>Recommendation accuracy requires <b>more data research</b> and domain expertise</li>
+                <li>The interface and flow need <b>continuous iteration</b> to be truly streamlined</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const main = document.getElementById('main');
+    const panels = document.querySelectorAll('.panel');
+    const allNavItems = document.querySelectorAll('.nav-item[data-target]');
+    const navSubs = document.querySelectorAll('.nav-sub');
+    const parentNavItems = document.querySelectorAll('.side-section > .nav-item[data-target]');
+
+    const overviewLayers = ['overview', 'about', 'role', 'impact'];
+    let overviewLayer = 'overview';
+    let overviewLayerIdx = 0;
+
+    const layerEls = {
+      overview: document.getElementById('layer-overview'),
+      about: document.getElementById('layer-about'),
+      role: document.getElementById('layer-role'),
+      impact: document.getElementById('layer-impact')
+    };
+
+    function setOverviewLayer(which) {
+      overviewLayer = which;
+      overviewLayerIdx = overviewLayers.indexOf(which);
+      Object.entries(layerEls).forEach(([key, el]) => {
+        el.classList.toggle('active', key === which);
+      });
+      navSubs.forEach(sub => {
+        if (sub.dataset.parent === 'overview') {
+          sub.querySelectorAll('.nav-item').forEach(si => {
+            si.classList.toggle('active', si.dataset.target === 'overview-' + which);
+          });
+        }
+      });
+      history.replaceState(null, '', '#overview-' + which);
+      updatePageCounter();
+
+      if (which === 'impact') {
+        const statEls = layerEls.impact.querySelectorAll('.stat-number[data-count-to]');
+        statEls.forEach((el, i) => animateCount(el, 200 + i * 150));
+      }
+    }
+
+    allNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        if (target === 'overview-overview' || target === 'overview-about' || target === 'overview-role' || target === 'overview-impact') {
+          const el = document.getElementById('overview-project');
+          if (el) main.scrollTo({ top: el.offsetTop });
+          setOverviewLayer(target.replace('overview-', ''));
+          return;
+        }
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    parentNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    const overviewPanel = document.getElementById('overview-project');
+
+    overviewPanel.addEventListener('wheel', (e) => {
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isVisible = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+      if (!isVisible) return;
+
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        if (overviewLayerIdx < overviewLayers.length - 1) {
+          setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+        } else {
+          let target = overviewPanel.nextElementSibling;
+          while (target && target.style.display === 'none') target = target.nextElementSibling;
+          if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+        }
+      } else if (e.deltaY < 0 && overviewLayerIdx > 0) {
+        e.preventDefault();
+        setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+      }
+    }, { passive: false });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'r' || e.key === 'R') {
+        main.scrollTo({ top: overviewPanel.offsetTop, behavior: 'smooth' });
+        setOverviewLayer('overview');
+        return;
+      }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isOverview = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+
+      if (isOverview) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (overviewLayerIdx < overviewLayers.length - 1) {
+            setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+          } else {
+            let target = overviewPanel.nextElementSibling;
+            while (target && target.style.display === 'none') target = target.nextElementSibling;
+            if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+          }
+        } else if (e.key === 'ArrowUp' && overviewLayerIdx > 0) {
+          e.preventDefault();
+          setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+        }
+      } else {
+        e.preventDefault();
+        const idx = currentVisiblePanelIdx;
+        if (e.key === 'ArrowDown' && idx < visiblePanels.length - 1) {
+          main.scrollTo({ top: visiblePanels[idx + 1].offsetTop, behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp') {
+          if (idx > 0) {
+            main.scrollTo({ top: visiblePanels[idx - 1].offsetTop, behavior: 'smooth' });
+          }
+        }
+      }
+    });
+
+    let activeGroup = 'overview';
+    let currentVisiblePanelIdx = 0;
+
+    const visiblePanels = Array.from(panels).filter(p => p.style.display !== 'none');
+    const totalPages = overviewLayers.length + visiblePanels.length;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const panel = entry.target;
+          const id = panel.id;
+          const group = panel.dataset.group;
+          activeGroup = group;
+
+          currentVisiblePanelIdx = visiblePanels.indexOf(panel);
+          updatePageCounter();
+
+          const hashId = group === 'overview' ? 'overview-' + overviewLayer : id;
+          if (location.hash !== '#' + hashId) {
+            history.replaceState(null, '', '#' + hashId);
+          }
+
+          parentNavItems.forEach(n => {
+            const nTarget = n.dataset.target;
+            const nPanel = document.getElementById(nTarget);
+            const nGroup = nPanel ? nPanel.dataset.group : null;
+            n.classList.toggle('active', nGroup === group);
+          });
+
+          navSubs.forEach(sub => {
+            const isActive = sub.dataset.parent === group;
+            if (isActive) {
+              sub.classList.add('open');
+              sub.style.maxHeight = sub.scrollHeight + 'px';
+            } else {
+              sub.classList.remove('open');
+              sub.style.maxHeight = '0';
+            }
+          });
+
+          navSubs.forEach(sub => {
+            if (sub.dataset.parent === 'overview') {
+              if (group === 'overview') {
+                sub.querySelectorAll('.nav-item').forEach(si => {
+                  si.classList.toggle('active', si.dataset.target === 'overview-' + overviewLayer);
+                });
+              }
+            } else {
+              const navId = panel.dataset.nav || id;
+              sub.querySelectorAll('.nav-item').forEach(si => {
+                si.classList.toggle('active', si.dataset.target === navId);
+              });
+            }
+          });
+        }
+      });
+    }, { root: main, threshold: 0.5 });
+
+    panels.forEach(p => observer.observe(p));
+
+    const pageCounter = document.getElementById('pageCounter');
+
+    function updatePageCounter() {
+      let page;
+      if (currentVisiblePanelIdx === 0) {
+        page = overviewLayerIdx + 1;
+      } else {
+        page = overviewLayers.length + currentVisiblePanelIdx;
+      }
+      pageCounter.textContent = page + '/' + totalPages;
+    }
+
+    function animateCount(el, delay) {
+      const target = parseFloat(el.dataset.countTo);
+      if (isNaN(target)) return;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const duration = 1000;
+      let startTime = null;
+
+      el.textContent = prefix + '0' + suffix;
+
+      setTimeout(() => {
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          el.textContent = prefix + current.toFixed(decimals) + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = prefix + target.toFixed(decimals) + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    const dividerObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { root: main, threshold: 0.5 });
+    document.querySelectorAll('.divider-page').forEach(d => dividerObserver.observe(d));
+
+    if (location.hash) {
+      const hash = location.hash.slice(1);
+      if (hash.startsWith('overview-')) {
+        const layer = hash.replace('overview-', '');
+        if (overviewLayers.includes(layer)) {
+          const el = document.getElementById('overview-project');
+          if (el) main.scrollTo({ top: el.offsetTop });
+          setOverviewLayer(layer);
+        }
+      } else {
+        const el = document.getElementById(hash);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      }
+    }
+
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('pageDropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>

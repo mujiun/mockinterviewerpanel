@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connections — Portfolio Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    b { color: var(--accent); }
+
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F7F7F7;
+      --ink: #222222;
+      --ink2: #484848;
+      --ink3: #717171;
+      --accent: #FF385C;
+      --accent-light: #FFF0F3;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.04);
+      --title: 'Poppins', system-ui, sans-serif;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --nav-w: 200px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .shell { display: flex; height: 100vh; }
+
+    /* ── LEFT NAV ── */
+    .side {
+      width: var(--nav-w);
+      flex-shrink: 0;
+      border-right: 1px solid var(--border2);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 20;
+      background: var(--bg);
+    }
+
+    .side-section { padding: 0 16px; }
+
+    .side-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      padding-right: 24px;
+      position: relative;
+      user-select: none;
+    }
+
+    .dropdown-toggle::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23717171' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      transition: transform 0.15s ease;
+    }
+
+    .dropdown.open .dropdown-toggle::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .dropdown-toggle:hover { border-color: var(--ink3); }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    .dropdown.open .dropdown-menu { display: block; }
+
+    .dropdown-option {
+      display: block;
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+
+    .dropdown-option:hover { background: var(--surface); }
+    .dropdown-option.current { font-weight: 600; color: var(--accent); }
+
+    .nav-item {
+      display: block;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      line-height: 1.4;
+      margin-bottom: 1px;
+    }
+
+    .nav-item:hover { color: var(--ink); background: var(--surface); }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: var(--accent-light);
+      font-weight: 600;
+    }
+
+    .nav-sub {
+      padding-left: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .nav-sub.open { opacity: 1; }
+
+    .nav-sub .nav-item {
+      font-size: 12px;
+      font-weight: 400;
+      padding: 4px 8px;
+      color: var(--ink3);
+    }
+
+    .nav-sub .nav-item.active {
+      color: var(--accent);
+      background: transparent;
+      font-weight: 600;
+    }
+
+    .nav-sub .nav-item:hover { color: var(--ink2); background: transparent; }
+
+    /* ── SCROLLBAR ── */
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .side::-webkit-scrollbar { width: 4px; }
+    .side::-webkit-scrollbar-track { background: transparent; }
+    .side::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+    }
+
+    .project-title {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 32px 64px 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      pointer-events: none;
+      height: 0;
+      overflow: visible;
+    }
+
+    .page-counter {
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--ink3);
+    }
+
+    .panel {
+      height: 100vh;
+      scroll-snap-align: start;
+      padding: 32px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .panel-inner {
+      width: 100%;
+      max-width: 1080px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    /* ── OVERVIEW ── */
+    .overview-header { margin-bottom: 20px; }
+
+    .overview-company {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .overview-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+
+    .overview-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .overview-body {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .overview-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .overview-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .overview-right .slide-img {
+      margin: 0;
+      height: 75%;
+    }
+
+    .overview-right .slide-img img {
+      object-fit: cover;
+    }
+
+    .overview-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .overview-layer.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .overview-layer .meta-block {
+      padding: 16px 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .meta-block {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overview-layer.active .meta-block:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .meta-block:nth-child(2) { transition-delay: 0.2s; }
+
+    /* ── Role timeline ── */
+    .role-timeline {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 8px 0;
+    }
+
+    .role-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .role-item { opacity: 1; transform: translateY(0); }
+
+    .role-icon { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+
+    .role-text { font-family: var(--title); font-size: 15px; font-weight: 400; color: var(--ink); line-height: 1.35; }
+
+    .overview-layer.active .role-timeline > .role-item:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(2) { transition-delay: 0.15s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(3) { transition-delay: 0.2s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(4) { transition-delay: 0.25s; }
+
+    /* ── Stat numbers ── */
+    .stat-number {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-number { opacity: 1; transform: translateY(0) scale(1); }
+
+    .overview-layer.active .stat-card:nth-child(1) .stat-number { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) .stat-number { transition-delay: 0.3s; }
+    .overview-layer.active .stat-card:nth-child(3) .stat-number { transition-delay: 0.45s; }
+
+    .stat-desc { font-size: 15px; font-weight: 400; color: var(--ink); line-height: 1.4; }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 36px 0; }
+
+    .stat-card {
+      padding: 0;
+      background: transparent;
+      border-radius: var(--radius);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-card { opacity: 1; transform: translateY(0); }
+
+    .overview-layer.active .stat-card:nth-child(1) { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) { transition-delay: 0.25s; }
+    .overview-layer.active .stat-card:nth-child(3) { transition-delay: 0.35s; }
+
+    .stat-card .stat-number { font-size: 56px; margin-bottom: 6px; }
+    .stat-card .stat-desc { font-size: 16px; }
+
+    /* ── CONTENT ELEMENTS ── */
+    .slide-img {
+      width: 100%;
+      background: transparent;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .slide-img img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 24px;
+      object-fit: contain;
+    }
+
+    /* ── Divider slide ── */
+    .divider-page {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .divider-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .divider-desc {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink2);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    }
+
+    .divider-page.visible .divider-desc { opacity: 1; transform: translateY(0); }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .content-p {
+      font-family: var(--title);
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .content-desc {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink3);
+      line-height: 1.5;
+      padding-top: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .single-col .content-desc { padding-top: 4px; }
+
+    .meta-block-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    /* ── Unified bullet list ── */
+    .content-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 8px 0 12px;
+    }
+
+    .content-list li {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .content-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .footnote {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.5;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* ── Horizontal check tags ── */
+    .check-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .check-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      background: var(--surface);
+      padding: 6px 14px;
+      border-radius: 20px;
+      line-height: 1.3;
+    }
+
+    .check-tag::before {
+      content: '';
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(-45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── Single-col image ── */
+    .single-col .slide-img {
+      margin: 0;
+      background: transparent;
+    }
+
+    /* ── Finding cards ── */
+    .finding-cards {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .finding-card {
+      flex: 1;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .finding-label {
+      font-family: var(--title);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .finding-body {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .finding-fix {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Metric cards ── */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .metric-card .metric-number {
+      font-family: var(--title);
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    #slide-6 .metric-card .metric-number {
+      font-size: 56px;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .metric-card .metric-label {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    /* ── TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 12px 0;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .compare-table th, .compare-table td {
+      text-align: left;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .compare-table th {
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .compare-table td { color: var(--ink); line-height: 1.5; }
+    .compare-table tbody tr:hover { background: rgba(0,0,0,0.015); }
+    .compare-table .check { color: var(--accent); font-weight: 600; }
+
+    /* ── 2-COL PANEL LAYOUT ── */
+    .split {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .split-text { display: flex; flex-direction: column; justify-content: center; }
+
+    /* ── 1-col layout ── */
+    .single-col {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      padding-top: 48px;
+      gap: 16px;
+    }
+    /* ── Phone mockups ── */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .explore-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .explore-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    .content-phones .phone { height: 380px; }
+
+    .explore-desc {
+      font-size: 12px;
+      color: var(--ink3);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .phone {
+      width: 220px;
+      height: 460px;
+      background: #fff;
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 4px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .phone-header {
+      text-align: center;
+      font-family: var(--title);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phone-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .phone-row-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .phone-row-value {
+      font-size: 10px;
+      color: var(--ink3);
+    }
+
+    .phone-row-link {
+      font-size: 10px;
+      color: var(--ink2);
+      text-decoration: underline;
+    }
+
+    .phone-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 10px 4px 4px;
+    }
+
+    .phone-radio {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 4px;
+      border-radius: 8px;
+      cursor: default;
+    }
+
+    .phone-radio.selected {
+      background: var(--accent-light);
+    }
+
+    .radio-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .radio-dot.filled {
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+
+    .radio-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .radio-sub {
+      font-size: 11px;
+      color: var(--ink3);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .phone-btn {
+      margin: 10px 4px 4px;
+      padding: 10px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--title);
+    }
+
+    .phone-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phone-tab {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--ink3);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .phone-tab.active {
+      color: var(--ink);
+      font-weight: 600;
+      border-bottom-color: var(--ink);
+    }
+
+    .phone-card {
+      margin: 8px 4px;
+      padding: 10px;
+      background: var(--surface);
+      border-radius: 10px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .phone-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .phone-card-desc {
+      font-size: 9px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .phone-sheet {
+      margin: 8px 4px 4px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .phone-sheet-handle {
+      width: 32px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 8px;
+    }
+
+    .phone-chip-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      padding: 4px 4px 0;
+    }
+
+    .phone-chip {
+      font-size: 9px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--ink3);
+      font-weight: 500;
+    }
+
+    .phone-chip.active {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .explore-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    .explore-badge.chosen {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .explore-badge.alt {
+      background: var(--surface);
+      color: var(--ink3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    <!-- ── LEFT NAV ── -->
+    <nav class="side">
+      <div class="side-section" style="margin-bottom: 20px;">
+        <p class="side-label">Deck</p>
+        <div class="dropdown" id="pageDropdown">
+          <div class="dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Sample 3</div>
+          <div class="dropdown-menu">
+            <a class="dropdown-option" href="sample1.html">Sample 1 — Hygge</a>
+            <a class="dropdown-option" href="sample2.html">Sample 2 — Airbnb</a>
+            <a class="dropdown-option current" href="sample3.html">Sample 3 — Airbnb Connections</a>
+            <a class="dropdown-option" href="workshop.html">Workshop</a>
+            <a class="dropdown-option" href="exercises.html">Exercises</a>
+          </div>
+        </div>
+      </div>
+      <div class="side-section">
+        <p class="side-label">Agenda</p>
+
+        <a class="nav-item active" data-target="slide-1">Overview</a>
+        <div class="nav-sub" data-parent="overview">
+          <a class="nav-item" data-target="slide-2">About</a>
+          <a class="nav-item" data-target="slide-3">My Contributions</a>
+          <a class="nav-item" data-target="slide-4">Impact</a>
+        </div>
+
+        <a class="nav-item" data-target="slide-5">Context</a>
+        <div class="nav-sub" data-parent="context">
+          <a class="nav-item" data-target="slide-6">Finding #1</a>
+          <a class="nav-item" data-target="slide-7">Finding #2</a>
+          <a class="nav-item" data-target="slide-8">Opportunity</a>
+        </div>
+
+        <a class="nav-item" data-target="slide-9">Concept</a>
+        <div class="nav-sub" data-parent="concept">
+          <a class="nav-item" data-target="slide-10">Explore</a>
+          <a class="nav-item" data-target="slide-11">Analyze</a>
+          <a class="nav-item" data-target="slide-12">Define</a>
+        </div>
+
+        <a class="nav-item" data-target="slide-13">Design</a>
+        <div class="nav-sub" data-parent="design">
+          <a class="nav-item" data-target="slide-14">Entry Point</a>
+          <a class="nav-item" data-target="slide-15">Content Hierarchy</a>
+          <a class="nav-item" data-target="slide-16">Page IA</a>
+          <a class="nav-item" data-target="slide-17">Final Design</a>
+        </div>
+
+        <a class="nav-item" data-target="slide-18">Impact</a>
+        <div class="nav-sub" data-parent="impact">
+          <a class="nav-item" data-target="slide-19">Metrics</a>
+          <a class="nav-item" data-target="slide-20">Takeaways</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="main" id="main">
+
+      <p class="project-title"><span class="page-counter" id="pageCounter">1/20</span> &bull; Connections</p>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <section class="panel" id="slide-1" data-group="overview">
+        <div class="panel-inner">
+          <div class="overview-body">
+            <div class="overview-left">
+              <div class="overview-layer active" id="layer-overview">
+                <div class="overview-header">
+                  <p class="overview-company">Airbnb</p>
+                  <h1 class="overview-title">Connections</h1>
+                  <p class="overview-subtitle">A post-trip memory layer that helps <b>group travelers stay connected</b> and book again together</p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-about">
+                <div class="meta-block">
+                  <p class="content-p">A post-trip profile that helps guests revisit <b>shared memories</b> and stay connected with fellow travelers — encouraging them to <b>book again together</b>.</p>
+                  <p class="footnote">Rolling out Q4 2025. Privacy-first: opt-in only, messaging off by default.</p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-role">
+                <div class="meta-block">
+                  <p class="meta-block-label">My Contributions</p>
+                  <ul class="role-timeline">
+                    <li class="role-item"><span class="role-icon">&#x1f50d;</span><span class="role-text">Found opportunity in group travel data</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f91d;</span><span class="role-text">Co-created concepts with PM, Eng, UXR</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f3a8;</span><span class="role-text">Designed page IA &amp; content hierarchy</span></li>
+                  </ul>
+                </div>
+                <div class="meta-block" style="margin-top:24px;">
+                  <p class="meta-block-label">Design Deliverables</p>
+                  <ul class="role-timeline">
+                    <li class="role-item"><span class="role-text">Connections profile page</span></li>
+                    <li class="role-item"><span class="role-text">UXR-validated content hierarchy</span></li>
+                    <li class="role-item"><span class="role-text">Shipped iOS/Android, 29 markets</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-impact">
+                <div class="meta-block">
+                  <p class="meta-block-label">Impact</p>
+                  <div class="stat-grid">
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="70" data-suffix="%">0%</p>
+                      <p class="stat-desc">Want to know other guests pre-booking</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number">Global</p>
+                      <p class="stat-desc">29 countries surveyed</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="4.93" data-decimals="2">0</p>
+                      <p class="stat-desc">Average Experience rating</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview-right">
+              <div class="slide-img">
+                <img src="images/connections_profile.jpg" alt="Connections UI" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-2" data-group="overview" style="display:none"></section>
+      <section class="panel" id="slide-3" data-group="overview" style="display:none"></section>
+      <section class="panel" id="slide-4" data-group="overview" style="display:none"></section>
+
+      <!-- ═══ CONTEXT ═══ -->
+      <section class="panel" id="slide-5" data-group="context">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Context</p>
+            <p class="divider-desc">Why post-trip relationships matter for Airbnb growth</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-6" data-group="context">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Finding #1</p>
+              <p class="content-p"><b>Group travelers</b> are Airbnb's highest-value segment — but the platform loses those connections after checkout</p>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">52%</p>
+                <p class="metric-label">of Airbnb bookings are <b>group travel</b></p>
+              </div>
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">3.2x</p>
+                <p class="metric-label">higher <b>retention</b> for group vs. solo travelers</p>
+              </div>
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">34%</p>
+                <p class="metric-label">of repeat bookings are with <b>past travel companions</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="panel" id="slide-7" data-group="context">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Finding #2</p>
+              <p class="content-p"><b>Memory layers</b> are driving retention and virality across top consumer apps</p>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">Spotify Wrapped</p>
+                <p class="metric-label">Personalized recap drives <b>massive social sharing</b> — spikes MAU every December</p>
+              </div>
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">YouTube Recap</p>
+                <p class="metric-label">Watch history as shareable story — reinforces <b>emotional attachment</b></p>
+              </div>
+              <div class="metric-card" style="flex:1;">
+                <p class="metric-number">Apple Music Replay</p>
+                <p class="metric-label">Real-time listening stats — creates a <b>persistent reason to return</b></p>
+              </div>
+            </div>
+            <p style="font-size:13px;color:var(--ink3);line-height:1.5;"><b>Pattern:</b> When platforms turn usage data into personal memories, users feel more attached, share more, and come back more often.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-8" data-group="context">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Opportunity</p>
+              <p style="font-family:var(--title);font-size:36px;font-weight:400;color:var(--ink);line-height:1.5;">Combine <b>group travel data</b> with the <b>retro/wrap-up trend</b> — turn Airbnb trips into shareable memories that bring travelers back together</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══ CONCEPT ═══ -->
+      <section class="panel" id="slide-9" data-group="concept">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Concept</p>
+            <p class="divider-desc">What could we build? What should we build?</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-10" data-group="concept">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Explore</p>
+              <p class="content-p">Worked with <b>XFN partners</b> (PM, Eng, Data Science) to brainstorm how Airbnb could turn trip history into a memory layer</p>
+            </div>
+            <div style="display:flex;gap:16px;">
+              <div style="flex:1;border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+                <p style="font-family:var(--title);font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">A. Wrap-Up Story</p>
+                <p style="font-size:13px;color:var(--ink2);line-height:1.6;">A shareable year-in-review showing <b>where you went with your friends</b> — trips, destinations, and travel companions in one story format.</p>
+              </div>
+              <div style="flex:1;border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+                <p style="font-family:var(--title);font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">B. Retro by Destination</p>
+                <p style="font-size:13px;color:var(--ink2);line-height:1.6;">A destination-first view — <b>where I went and who was with me</b>. Each city shows the people you shared that trip with.</p>
+              </div>
+              <div style="flex:1;border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+                <p style="font-family:var(--title);font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px;">C. Retro by People</p>
+                <p style="font-size:13px;color:var(--ink2);line-height:1.6;">A people-first view — <b>who I traveled with and where we've been</b>. Each person shows shared trips and destinations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-11" data-group="concept">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Analyze</p>
+              <p class="content-p">Evaluated each direction with <b>XFN stakeholders</b> across scope, user value, and engineering cost</p>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border);">
+                  <th style="text-align:left;padding:12px 16px;font-family:var(--title);font-weight:700;color:var(--ink);"></th>
+                  <th style="text-align:left;padding:12px 16px;font-family:var(--title);font-weight:700;color:var(--ink);">A. Wrap-Up Story</th>
+                  <th style="text-align:left;padding:12px 16px;font-family:var(--title);font-weight:700;color:var(--ink);">B. By Destination</th>
+                  <th style="text-align:left;padding:12px 16px;font-family:var(--title);font-weight:700;color:var(--accent);">C. By People</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px;font-weight:600;color:var(--ink);">Scope</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Large — custom story engine, animations, sharing infra</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Medium — extends existing Past Trips data</td>
+                  <td style="padding:12px 16px;color:var(--ink2);font-weight:500;">Small — leverages booking data + guest profiles</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px;font-weight:600;color:var(--ink);">Pros</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">High virality, shareable</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Strong travel memory, links places + people</td>
+                  <td style="padding:12px 16px;color:var(--ink2);font-weight:500;">Drives rebooking, relationship-first, aligns with retention data</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px;font-weight:600;color:var(--ink);">Cons</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Seasonal (once/year), high eng cost</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Doesn't directly drive social action</td>
+                  <td style="padding:12px 16px;color:var(--ink2);font-weight:500;">Needs privacy guardrails</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px;font-weight:600;color:var(--ink);">Eng Cost</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">High</td>
+                  <td style="padding:12px 16px;color:var(--ink2);">Medium</td>
+                  <td style="padding:12px 16px;color:var(--ink2);font-weight:500;">Low–Medium</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px;font-weight:600;color:var(--ink);">Verdict</td>
+                  <td style="padding:12px 16px;color:var(--ink3);">Explored</td>
+                  <td style="padding:12px 16px;color:var(--ink3);">Explored</td>
+                  <td style="padding:12px 16px;"><span class="explore-badge chosen" style="position:static;">Chosen</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p style="font-size:13px;color:var(--ink3);line-height:1.5;"><b>XFN alignment:</b> Option C best serves the retention thesis — people-first memory directly enables "rebook with" flows and has the lowest eng cost to ship.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-12" data-group="concept">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:24px;">
+            <div>
+              <p class="section-title">Define</p>
+              <p style="font-family:var(--title);font-size:36px;font-weight:400;color:var(--ink);line-height:1.5;">We built <b>Connections</b> — a people-first memory layer that turns trips into <b>shareable memories</b> and brings <b>travelers back together</b></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ DESIGN ═══ -->
+      <section class="panel" id="slide-13" data-group="design">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Design</p>
+            <p class="divider-desc">Building social into Experiences</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Entry Point ── -->
+      <section class="panel" id="slide-14" data-group="design">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Entry Point</p>
+              <p class="content-p">Explored <b>3 entry points</b> for where Connections surfaces in the Airbnb app</p>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Discovery</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">High visibility but adds noise to browsing</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Profile</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Natural home alongside Past Trips</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Trips</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Contextual but only visible for upcoming trips</p></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;">
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="height:10px;background:var(--border);border-radius:4px;width:50%;margin:8px auto 10px;"></div>
+                <div style="height:60px;background:var(--border);border-radius:8px;margin-bottom:6px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:65%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:40%;margin-bottom:10px;"></div>
+                <div style="height:60px;background:var(--border);border-radius:8px;margin-bottom:6px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:55%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:35%;margin-bottom:10px;"></div>
+                <div style="height:28px;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;margin-bottom:10px;"></div>
+                <div style="height:60px;background:var(--border);border-radius:8px;margin-bottom:6px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:60%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:38%;margin-bottom:10px;"></div>
+                <div style="height:60px;background:var(--border);border-radius:8px;margin-bottom:6px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:50%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:30%;"></div>
+              </div>
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="display:flex;align-items:center;gap:8px;margin:8px 0 12px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:var(--border);flex-shrink:0;"></div>
+                  <div style="flex:1;">
+                    <div style="height:10px;background:var(--border);border-radius:4px;width:60%;margin-bottom:4px;"></div>
+                    <div style="height:7px;background:var(--border);border-radius:4px;width:40%;"></div>
+                  </div>
+                </div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:44px;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;margin-bottom:8px;"></div>
+                <div style="height:36px;background:var(--border);border-radius:8px;"></div>
+              </div>
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="height:10px;background:var(--border);border-radius:4px;width:40%;margin:8px 0 10px;"></div>
+                <div style="height:70px;background:var(--border);border-radius:8px;margin-bottom:4px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:55%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:35%;margin-bottom:6px;"></div>
+                <div style="height:20px;background:var(--accent-light);border:2px solid var(--accent);border-radius:6px;margin-bottom:10px;"></div>
+                <div style="height:70px;background:var(--border);border-radius:8px;margin-bottom:4px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:50%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:30%;margin-bottom:6px;"></div>
+                <div style="height:20px;background:var(--accent-light);border:2px solid var(--accent);border-radius:6px;margin-bottom:10px;"></div>
+                <div style="height:70px;background:var(--border);border-radius:8px;margin-bottom:4px;"></div>
+                <div style="height:8px;background:var(--border);border-radius:4px;width:60%;margin-bottom:4px;"></div>
+                <div style="height:6px;background:var(--border);border-radius:4px;width:32%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Card Design ── -->
+      <!-- ── Page IA ── -->
+      <section class="panel" id="slide-15" data-group="design">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Content Hierarchy</p>
+              <p class="content-p">Worked with <b>UXR</b> to validate early exploration - Content types and sequence</p>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Identity + Destinations</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Builds trust through identity and travel history</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Trip Memory</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Photos and places front and center</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Social Context</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Mutual friends and conversation history</p></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;">
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="background:var(--border);border-radius:8px;height:56px;margin:8px 0 6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Profile</span></div>
+                <div style="background:var(--border);border-radius:8px;height:48px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Destinations</span></div>
+                <div style="background:var(--border);border-radius:8px;height:40px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Reviews</span></div>
+                <div style="background:var(--border);border-radius:8px;height:36px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Interests</span></div>
+                <div style="background:var(--border);border-radius:8px;height:36px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Settings</span></div>
+              </div>
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="background:var(--border);border-radius:8px;height:56px;margin:8px 0 6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Profile</span></div>
+                <div style="background:var(--border);border-radius:8px;height:48px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Stay Photos</span></div>
+                <div style="background:var(--border);border-radius:8px;height:44px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Trip Summary</span></div>
+                <div style="background:var(--border);border-radius:8px;height:40px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Message Preview</span></div>
+                <div style="background:var(--border);border-radius:8px;height:36px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Settings</span></div>
+              </div>
+              <div class="phone" style="background:var(--surface);">
+                <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                <div style="background:var(--border);border-radius:8px;height:56px;margin:8px 0 6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Profile</span></div>
+                <div style="background:var(--border);border-radius:8px;height:40px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Mutual Connections</span></div>
+                <div style="background:var(--border);border-radius:8px;height:48px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Message History</span></div>
+                <div style="background:var(--border);border-radius:8px;height:36px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Shared Interests</span></div>
+                <div style="background:var(--border);border-radius:8px;height:36px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:var(--ink3);font-weight:500;">Settings</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Content Hierarchy: Decision ── -->
+      <!-- ── Page IA ── -->
+      <section class="panel" id="slide-16" data-group="design">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Page IA</p>
+              <p class="content-p">Explored <b>3 design directions</b> for Connections page</p>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Direction A</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Card-based layout with visual hierarchy</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Direction B</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">List view with compact information density</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Direction C</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Profile-centric with social context</p></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;">
+              <img src="images/ConnectionsPage1.jpg" alt="Design A" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+              <img src="images/ConnectionsPage2.jpg" alt="Design B" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+              <img src="images/ConnectionsPage3.jpg" alt="Design C" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-17" data-group="design">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Final Design</p>
+              <p class="content-p"><b>End-to-end Connections</b> experience flow</p>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Profile</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Entry point from guest profile</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Connections</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Browse all travel connections</p></div>
+                <div><p style="font-size:14px;font-weight:600;color:var(--ink);">Details</p><p style="font-size:13px;color:var(--ink3);line-height:1.4;">Shared trips, reviews, and interests</p></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;">
+              <img src="images/ConnectionsPage0.jpg" alt="Profile" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+              <img src="images/ConnectionsPage3.jpg" alt="Connections" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+              <img src="images/ConnectionsPage4.jpg" alt="Details" style="width:220px;display:block;object-fit:contain;border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.12);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ IMPACT ═══ -->
+      <section class="panel" id="slide-18" data-group="impact">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Impact</p>
+            <p class="divider-desc">Measurable results</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-19" data-group="impact">
+        <div class="panel-inner">
+          <div style="display:flex;height:100%;gap:28px;align-items:center;">
+            <!-- Left: stats -->
+            <div style="flex:1;display:flex;flex-direction:column;gap:20px;">
+              <div>
+                <p class="section-title">Impact</p>
+                <p class="content-p"><b>Connections</b> transformed Experiences into a social platform</p>
+              </div>
+              <!-- Big stats 2x2 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">8%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Top 10 city share</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">down from 12% — destination diversified</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">+80%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Unique home bookings</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">growth in non-traditional stays</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">44%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Business travel share</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">up from 28% — new use cases unlocked</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">110K+</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Host applications</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">for Experiences since launch</p>
+                </div>
+              </div>
+              <p style="font-size:10px;color:var(--ink3);line-height:1.4;">Sources: Airbnb Q4 2025 Earnings &middot; Survey of 28,821 adults, 29 countries</p>
+            </div>
+            <!-- Right: image -->
+            <div style="flex:1;">
+              <div class="slide-img">
+                <img src="images/connections_header.jpg" alt="Connections" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="slide-20" data-group="impact">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">What I Learned</p>
+              <p class="content-p">Key takeaways from designing <b>Connections</b></p>
+            </div>
+            <div>
+              <ul class="content-list">
+                <li><b>Taxonomy is product design</b> — how you categorize Experiences shapes what users can discover; occasion-first unlocked hidden inventory</li>
+                <li><b>Start curated, then automate</b> — hand-picked Collections built trust; ML-powered Categories scaled it to millions of listings</li>
+                <li><b>Design for groups, not just individuals</b> — 52% travel with others, but most flows assume a solo booker</li>
+                <li><b>Privacy drives adoption</b> — opt-in defaults and full user control meant zero backlash at launch</li>
+                <li><b>Compound your features</b> — Collections → Categories → Social — each layer built on the last, creating a moat</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const main = document.getElementById('main');
+    const panels = document.querySelectorAll('.panel');
+    const allNavItems = document.querySelectorAll('.nav-item[data-target]');
+    const navSubs = document.querySelectorAll('.nav-sub');
+    const parentNavItems = document.querySelectorAll('.side-section > .nav-item[data-target]');
+
+    const overviewLayers = ['overview', 'about', 'role', 'impact'];
+    let overviewLayer = 'overview';
+    let overviewLayerIdx = 0;
+
+    const layerEls = {
+      overview: document.getElementById('layer-overview'),
+      about: document.getElementById('layer-about'),
+      role: document.getElementById('layer-role'),
+      impact: document.getElementById('layer-impact')
+    };
+
+    function setOverviewLayer(which) {
+      overviewLayer = which;
+      overviewLayerIdx = overviewLayers.indexOf(which);
+      Object.entries(layerEls).forEach(([key, el]) => {
+        el.classList.toggle('active', key === which);
+      });
+      navSubs.forEach(sub => {
+        if (sub.dataset.parent === 'overview') {
+          sub.querySelectorAll('.nav-item').forEach(si => {
+            const lts = { overview: 'slide-1', about: 'slide-2', role: 'slide-3', impact: 'slide-4' };
+            si.classList.toggle('active', si.dataset.target === lts[which]);
+          });
+        }
+      });
+      const lts = { overview: 'slide-1', about: 'slide-2', role: 'slide-3', impact: 'slide-4' };
+      history.replaceState(null, '', '#' + lts[which]);
+      updatePageCounter();
+      if (which === 'impact') {
+        const statEls = layerEls.impact.querySelectorAll('.stat-number[data-count-to]');
+        statEls.forEach((el, i) => animateCount(el, 200 + i * 150));
+      }
+    }
+
+    allNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        const slideToLayer = { 'slide-1': 'overview', 'slide-2': 'about', 'slide-3': 'role', 'slide-4': 'impact' };
+        if (slideToLayer[target]) {
+          const el = document.getElementById('slide-1');
+          if (el) main.scrollTo({ top: el.offsetTop });
+          setOverviewLayer(slideToLayer[target]);
+          return;
+        }
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    // ── Click parent nav → also scroll to that section ──
+    parentNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    const overviewPanel = document.getElementById('slide-1');
+
+    overviewPanel.addEventListener('wheel', (e) => {
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isVisible = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+      if (!isVisible) return;
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        if (overviewLayerIdx < overviewLayers.length - 1) {
+          setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+        } else {
+          let target = overviewPanel.nextElementSibling;
+          while (target && target.style.display === 'none') target = target.nextElementSibling;
+          if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+        }
+      } else if (e.deltaY < 0 && overviewLayerIdx > 0) {
+        e.preventDefault();
+        setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+      }
+    }, { passive: false });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'r' || e.key === 'R') {
+        main.scrollTo({ top: overviewPanel.offsetTop, behavior: 'smooth' });
+        setOverviewLayer('overview');
+        return;
+      }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isOverview = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+      if (isOverview) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (overviewLayerIdx < overviewLayers.length - 1) {
+            setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+          } else {
+            let target = overviewPanel.nextElementSibling;
+            while (target && target.style.display === 'none') target = target.nextElementSibling;
+            if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+          }
+        } else if (e.key === 'ArrowUp' && overviewLayerIdx > 0) {
+          e.preventDefault();
+          setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+        }
+      } else {
+        e.preventDefault();
+        const idx = currentVisiblePanelIdx;
+        if (e.key === 'ArrowDown' && idx < visiblePanels.length - 1) {
+          main.scrollTo({ top: visiblePanels[idx + 1].offsetTop, behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' && idx > 0) {
+          main.scrollTo({ top: visiblePanels[idx - 1].offsetTop, behavior: 'smooth' });
+        }
+      }
+    });
+
+    let activeGroup = 'overview';
+    let currentVisiblePanelIdx = 0;
+    const visiblePanels = Array.from(panels).filter(p => p.style.display !== 'none');
+    const totalPages = overviewLayers.length + visiblePanels.length;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const panel = entry.target;
+          const id = panel.id;
+          const group = panel.dataset.group;
+          activeGroup = group;
+          currentVisiblePanelIdx = visiblePanels.indexOf(panel);
+          updatePageCounter();
+          const layerToSlide = { overview: 'slide-1', about: 'slide-2', role: 'slide-3', impact: 'slide-4' };
+          const hashId = group === 'overview' ? layerToSlide[overviewLayer] : id;
+          if (location.hash !== '#' + hashId) history.replaceState(null, '', '#' + hashId);
+          parentNavItems.forEach(n => {
+            const nTarget = n.dataset.target;
+            const nPanel = document.getElementById(nTarget);
+            const nGroup = nPanel ? nPanel.dataset.group : null;
+            n.classList.toggle('active', nGroup === group);
+          });
+          navSubs.forEach(sub => {
+            const isActive = sub.dataset.parent === group;
+            if (isActive) { sub.classList.add('open'); sub.style.maxHeight = sub.scrollHeight + 'px'; }
+            else { sub.classList.remove('open'); sub.style.maxHeight = '0'; }
+          });
+          navSubs.forEach(sub => {
+            if (sub.dataset.parent === 'overview') {
+              if (group === 'overview') {
+                sub.querySelectorAll('.nav-item').forEach(si => {
+                  const lts = { overview: 'slide-1', about: 'slide-2', role: 'slide-3', impact: 'slide-4' };
+                  si.classList.toggle('active', si.dataset.target === lts[overviewLayer]);
+                });
+              }
+            } else {
+              const navId = panel.dataset.nav || id;
+              sub.querySelectorAll('.nav-item').forEach(si => {
+                si.classList.toggle('active', si.dataset.target === navId);
+              });
+            }
+          });
+        }
+      });
+    }, { root: main, threshold: 0.5 });
+
+    panels.forEach(p => observer.observe(p));
+
+    const pageCounter = document.getElementById('pageCounter');
+    function updatePageCounter() {
+      let page = currentVisiblePanelIdx === 0 ? overviewLayerIdx + 1 : overviewLayers.length + currentVisiblePanelIdx;
+      pageCounter.textContent = page + '/' + totalPages;
+    }
+
+    function animateCount(el, delay) {
+      const target = parseFloat(el.dataset.countTo);
+      if (isNaN(target)) return;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const duration = 1000;
+      let startTime = null;
+      el.textContent = prefix + '0' + suffix;
+      setTimeout(() => {
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          el.textContent = prefix + current.toFixed(decimals) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = prefix + target.toFixed(decimals) + suffix;
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    const dividerObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+        else entry.target.classList.remove('visible');
+      });
+    }, { root: main, threshold: 0.5 });
+    document.querySelectorAll('.divider-page').forEach(d => dividerObserver.observe(d));
+
+    if (location.hash) {
+      const hash = location.hash.slice(1);
+      const slideToLayer = { 'slide-1': 'overview', 'slide-2': 'about', 'slide-3': 'role', 'slide-4': 'impact' };
+      if (slideToLayer[hash]) {
+        const el = document.getElementById('slide-1');
+        if (el) main.scrollTo({ top: el.offsetTop });
+        setOverviewLayer(slideToLayer[hash]);
+      } else {
+        const el = document.getElementById(hash);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      }
+    }
+
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('pageDropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>

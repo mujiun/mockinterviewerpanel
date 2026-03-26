@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserve Now, Pay Later — Portfolio Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    b { color: var(--accent); }
+
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F7F7F7;
+      --ink: #222222;
+      --ink2: #484848;
+      --ink3: #717171;
+      --accent: #FF385C;
+      --accent-light: #FFF0F3;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.04);
+      --title: 'Poppins', system-ui, sans-serif;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --nav-w: 200px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .shell { display: flex; height: 100vh; }
+
+    /* ── LEFT NAV ── */
+    .side {
+      width: var(--nav-w);
+      flex-shrink: 0;
+      border-right: 1px solid var(--border2);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 20;
+      background: var(--bg);
+    }
+
+    .side-section { padding: 0 16px; }
+
+    .side-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      padding-right: 24px;
+      position: relative;
+      user-select: none;
+    }
+
+    .dropdown-toggle::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23717171' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      transition: transform 0.15s ease;
+    }
+
+    .dropdown.open .dropdown-toggle::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .dropdown-toggle:hover { border-color: var(--ink3); }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    .dropdown.open .dropdown-menu { display: block; }
+
+    .dropdown-option {
+      display: block;
+      width: 100%;
+      padding: 6px 8px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+
+    .dropdown-option:hover { background: var(--surface); }
+    .dropdown-option.current { font-weight: 600; color: var(--accent); }
+
+    .nav-item {
+      display: block;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      line-height: 1.4;
+      margin-bottom: 1px;
+    }
+
+    .nav-item:hover { color: var(--ink); background: var(--surface); }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: var(--accent-light);
+      font-weight: 600;
+    }
+
+    .nav-sub {
+      padding-left: 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .nav-sub.open { opacity: 1; }
+
+    .nav-sub .nav-item {
+      font-size: 12px;
+      font-weight: 400;
+      padding: 4px 8px;
+      color: var(--ink3);
+    }
+
+    .nav-sub .nav-item.active {
+      color: var(--accent);
+      background: transparent;
+      font-weight: 600;
+    }
+
+    .nav-sub .nav-item:hover { color: var(--ink2); background: transparent; }
+
+    /* ── SCROLLBAR ── */
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .side::-webkit-scrollbar { width: 4px; }
+    .side::-webkit-scrollbar-track { background: transparent; }
+    .side::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+    }
+
+    .project-title {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 32px 64px 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      pointer-events: none;
+      height: 0;
+      overflow: visible;
+    }
+
+    .page-counter {
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--ink3);
+    }
+
+    .panel {
+      height: 100vh;
+      scroll-snap-align: start;
+      padding: 32px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .panel-inner {
+      width: 100%;
+      max-width: 1080px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    /* ── OVERVIEW ── */
+    .overview-header { margin-bottom: 20px; }
+
+    .overview-company {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .overview-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+
+    .overview-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .overview-body {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .overview-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .overview-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .overview-right .slide-img {
+      margin: 0;
+      height: 75%;
+    }
+
+    .overview-right .slide-img img {
+      object-fit: cover;
+    }
+
+    .overview-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .overview-layer.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .overview-layer .meta-block {
+      padding: 16px 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .meta-block {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overview-layer.active .meta-block:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .meta-block:nth-child(2) { transition-delay: 0.2s; }
+
+    /* ── Role timeline ── */
+    .role-timeline {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 8px 0;
+    }
+
+    .role-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .role-item { opacity: 1; transform: translateY(0); }
+
+    .role-icon { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+
+    .role-text { font-family: var(--title); font-size: 20px; font-weight: 400; color: var(--ink); line-height: 1.35; }
+
+    .overview-layer.active .role-timeline > .role-item:nth-child(1) { transition-delay: 0.1s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(2) { transition-delay: 0.15s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(3) { transition-delay: 0.2s; }
+    .overview-layer.active .role-timeline > .role-item:nth-child(4) { transition-delay: 0.25s; }
+
+    /* ── Stat numbers ── */
+    .stat-number {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-number { opacity: 1; transform: translateY(0) scale(1); }
+
+    .overview-layer.active .stat-card:nth-child(1) .stat-number { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) .stat-number { transition-delay: 0.3s; }
+    .overview-layer.active .stat-card:nth-child(3) .stat-number { transition-delay: 0.45s; }
+
+    .stat-desc { font-size: 15px; font-weight: 400; color: var(--ink); line-height: 1.4; }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 36px 0; }
+
+    .stat-card {
+      padding: 0;
+      background: transparent;
+      border-radius: var(--radius);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-layer.active .stat-card { opacity: 1; transform: translateY(0); }
+
+    .overview-layer.active .stat-card:nth-child(1) { transition-delay: 0.15s; }
+    .overview-layer.active .stat-card:nth-child(2) { transition-delay: 0.25s; }
+    .overview-layer.active .stat-card:nth-child(3) { transition-delay: 0.35s; }
+
+    .stat-card .stat-number { font-size: 56px; margin-bottom: 6px; }
+    .stat-card .stat-desc { font-size: 16px; }
+
+    /* ── CONTENT ELEMENTS ── */
+    .slide-img {
+      width: 100%;
+      background: transparent;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .slide-img img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 24px;
+      object-fit: contain;
+    }
+
+    /* ── Divider slide ── */
+    .divider-page {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .divider-title {
+      font-family: var(--title);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .divider-desc {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink2);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    }
+
+    .divider-page.visible .divider-desc { opacity: 1; transform: translateY(0); }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .content-p {
+      font-family: var(--title);
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .content-desc {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink3);
+      line-height: 1.5;
+      padding-top: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .single-col .content-desc { padding-top: 4px; }
+
+    .meta-block-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    /* ── Unified bullet list ── */
+    .content-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 8px 0 12px;
+    }
+
+    .content-list li {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .content-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .footnote {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.5;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* ── Horizontal check tags ── */
+    .check-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .check-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      background: var(--surface);
+      padding: 6px 14px;
+      border-radius: 20px;
+      line-height: 1.3;
+    }
+
+    .check-tag::before {
+      content: '';
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(-45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── Single-col image ── */
+    .single-col .slide-img {
+      margin: 0;
+      background: transparent;
+    }
+
+    /* ── Finding cards ── */
+    .finding-cards {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .finding-card {
+      flex: 1;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .finding-label {
+      font-family: var(--title);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .finding-body {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .finding-fix {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Metric cards ── */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .metric-card .metric-number {
+      font-family: var(--title);
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .metric-card .metric-label {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    /* ── TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 12px 0;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .compare-table th, .compare-table td {
+      text-align: left;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    .compare-table th {
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .compare-table td { color: var(--ink); line-height: 1.5; }
+    .compare-table tbody tr:hover { background: rgba(0,0,0,0.015); }
+    .compare-table .check { color: var(--accent); font-weight: 600; }
+
+    /* ── 2-COL PANEL LAYOUT ── */
+    .split {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 40px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .split-text { display: flex; flex-direction: column; justify-content: center; }
+
+    /* ── 1-col layout ── */
+    .single-col {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      padding-top: 48px;
+      gap: 16px;
+    }
+    /* ── Phone mockups ── */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .explore-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .explore-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    .content-phones .phone { height: 380px; }
+
+    .explore-desc {
+      font-size: 12px;
+      color: var(--ink3);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .phone {
+      width: 220px;
+      height: 460px;
+      background: #fff;
+      border-radius: 28px;
+      border: 2px solid var(--border);
+      padding: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 4px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .phone-header {
+      text-align: center;
+      font-family: var(--title);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phone-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .phone-row-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .phone-row-value {
+      font-size: 10px;
+      color: var(--ink3);
+    }
+
+    .phone-row-link {
+      font-size: 10px;
+      color: var(--ink2);
+      text-decoration: underline;
+    }
+
+    .phone-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 10px 4px 4px;
+    }
+
+    .phone-radio {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 4px;
+      border-radius: 8px;
+      cursor: default;
+    }
+
+    .phone-radio.selected {
+      background: var(--accent-light);
+    }
+
+    .radio-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .radio-dot.filled {
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+
+    .radio-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .radio-sub {
+      font-size: 11px;
+      color: var(--ink3);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .phone-btn {
+      margin: 10px 4px 4px;
+      padding: 10px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--title);
+    }
+
+    .phone-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phone-tab {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--ink3);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .phone-tab.active {
+      color: var(--ink);
+      font-weight: 600;
+      border-bottom-color: var(--ink);
+    }
+
+    .phone-card {
+      margin: 8px 4px;
+      padding: 10px;
+      background: var(--surface);
+      border-radius: 10px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .phone-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .phone-card-desc {
+      font-size: 9px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .phone-sheet {
+      margin: 8px 4px 4px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .phone-sheet-handle {
+      width: 32px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 8px;
+    }
+
+    .phone-chip-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      padding: 4px 4px 0;
+    }
+
+    .phone-chip {
+      font-size: 9px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--ink3);
+      font-weight: 500;
+    }
+
+    .phone-chip.active {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .explore-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    .explore-badge.chosen {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .explore-badge.alt {
+      background: var(--surface);
+      color: var(--ink3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    <!-- ── LEFT NAV ── -->
+    <nav class="side">
+      <div class="side-section" style="margin-bottom: 20px;">
+        <p class="side-label">Deck</p>
+        <div class="dropdown" id="pageDropdown">
+          <div class="dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Sample 2</div>
+          <div class="dropdown-menu">
+            <a class="dropdown-option" href="sample1.html">Sample 1 — Hygge</a>
+            <a class="dropdown-option current" href="sample2.html">Sample 2 — Airbnb</a>
+            <a class="dropdown-option" href="sample3.html">Sample 3 — Airbnb Connections</a>
+            <a class="dropdown-option" href="workshop.html">Workshop</a>
+            <a class="dropdown-option" href="exercises.html">Exercises</a>
+          </div>
+        </div>
+      </div>
+      <div class="side-section">
+        <p class="side-label">Agenda</p>
+
+        <a class="nav-item active" data-target="overview-project">Overview</a>
+        <div class="nav-sub" data-parent="overview">
+          <a class="nav-item" data-target="overview-about">About</a>
+          <a class="nav-item" data-target="overview-role">My Contributions</a>
+          <a class="nav-item" data-target="overview-impact">Impact</a>
+        </div>
+
+        <a class="nav-item" data-target="context-divider">Context</a>
+        <div class="nav-sub" data-parent="context">
+          <a class="nav-item" data-target="context-problem">The Problem</a>
+          <a class="nav-item" data-target="context-survey">Survey Insights</a>
+          <a class="nav-item" data-target="context-opportunity">Opportunity</a>
+        </div>
+
+        <a class="nav-item" data-target="design-divider">Design</a>
+        <div class="nav-sub" data-parent="design">
+          <a class="nav-item" data-target="design-scope">Scope</a>
+          <a class="nav-item" data-target="design-explore">Entry Point</a>
+          <a class="nav-item" data-target="design-options">Selector UI</a>
+          <a class="nav-item" data-target="design-content">Content</a>
+          <a class="nav-item" data-target="design-flow">Booking Flow</a>
+          <a class="nav-item" data-target="design-final">Final Design</a>
+        </div>
+
+        <a class="nav-item" data-target="impact-divider">Impact</a>
+        <div class="nav-sub" data-parent="impact">
+          <a class="nav-item" data-target="impact-metrics">Metrics</a>
+          <a class="nav-item" data-target="impact-takeaways">Takeaways</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="main" id="main">
+
+      <p class="project-title"><span class="page-counter" id="pageCounter">1/16</span> &bull; Reserve Now, Pay Later</p>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <section class="panel" id="overview-project" data-group="overview">
+        <div class="panel-inner">
+          <div class="overview-body">
+            <div class="overview-left">
+              <div class="overview-layer active" id="layer-overview">
+                <div class="overview-header">
+                  <p class="overview-company">Airbnb</p>
+                  <h1 class="overview-title">Reserve Now,<br>Pay Later</h1>
+                  <p class="overview-subtitle">Giving guests <b>greater flexibility</b> to book without immediate payment</p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-about">
+                <div class="meta-block">
+                  <p class="content-p">Guests can <b>reserve eligible stays without paying at checkout</b>, then pay before the free cancellation period ends.</p>
+                  <p class="footnote">Applies to listings with moderate or flexible cancellation policies. Complements Pay Part Now and Klarna installments.</p>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-role">
+                <div class="meta-block">
+                  <p class="meta-block-label">My Contributions</p>
+                  <ul class="role-timeline">
+                    <li class="role-item"><span class="role-icon">&#x1f50d;</span><span class="role-text">User Research &amp; Surveys</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f3a8;</span><span class="role-text">Booking Flow Design</span></li>
+                    <li class="role-item"><span class="role-icon">&#x1f9ea;</span><span class="role-text">A/B Testing &amp; Validation</span></li>
+                  </ul>
+                </div>
+                <div class="meta-block" style="margin-top:24px;">
+                  <p class="meta-block-label">Design Deliverables</p>
+                  <ul class="role-timeline">
+                    <li class="role-item"><span class="role-text">Updated 6 flows for booking and cancellation</span></li>
+                    <li class="role-item"><span class="role-text">Updated 4 page IA</span></li>
+                    <li class="role-item"><span class="role-text">Scaled to mobile/desktop, iOS/Android</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="overview-layer" id="layer-impact">
+                <div class="meta-block">
+                  <p class="meta-block-label">Impact</p>
+                  <div class="stat-grid">
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="70" data-suffix="%">0%</p>
+                      <p class="stat-desc">Adoption rate for eligible bookings</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number">Global</p>
+                      <p class="stat-desc">Expanded worldwide from US-only</p>
+                    </div>
+                    <div class="stat-card">
+                      <p class="stat-number" data-count-to="5" data-suffix="M+">0M+</p>
+                      <p class="stat-desc">Hosts on the platform</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview-right">
+              <div class="slide-img">
+                <img src="images/airbnb_hero_us.jpg" alt="Reserve Now Pay Later UI" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="overview-about" data-group="overview" style="display:none"></section>
+      <section class="panel" id="overview-role" data-group="overview" style="display:none"></section>
+      <section class="panel" id="overview-impact" data-group="overview" style="display:none"></section>
+
+      <!-- ═══ CONTEXT ═══ -->
+      <section class="panel" id="context-divider" data-group="context">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Context</p>
+            <p class="divider-desc">Why flexible payment matters for travel</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="context-problem" data-group="context">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">The Problem</p>
+              <p class="content-p"><b>42% of travelers</b> delayed or missed stays due to payment friction</p>
+              <ul class="content-list">
+                <li><b>Commitment anxiety</b> — upfront payment deters undecided guests</li>
+                <li><b>Group coordination</b> — splitting costs delays booking</li>
+              </ul>
+              <p class="footnote">Survey of 2,159 U.S. adults, Q4 2025.</p>
+            </div>
+            <div>
+              <div class="slide-img">
+                <img src="images/airbnb_bluebonnet.jpg" alt="Airbnb listing" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="context-survey" data-group="context">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">Survey Insights</p>
+              <p class="content-p"><b>Flexible payment</b> is a top priority for modern travelers</p>
+              <p class="footnote">3,222 respondents across Asia Pacific, Jan–Feb 2026.</p>
+            </div>
+            <div>
+              <div class="metric-grid" style="grid-template-columns: 1fr;">
+                <div class="metric-card">
+                  <p class="metric-number">67%</p>
+                  <p class="metric-label">Say flexible payment is <b>important</b> when booking holidays</p>
+                </div>
+                <div class="metric-card">
+                  <p class="metric-number">75%</p>
+                  <p class="metric-label">Plan to use flexible payment for their <b>next trip</b></p>
+                </div>
+                <div class="metric-card">
+                  <p class="metric-number">41%</p>
+                  <p class="metric-label">Delayed bookings due to <b>payment coordination</b> with co-travelers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="context-opportunity" data-group="context">
+        <div class="panel-inner">
+          <div class="single-col" style="justify-content:center;padding-top:0;">
+            <div>
+              <p class="section-title">Opportunity</p>
+              <p class="content-p"><b>Reserve Now, Pay Later</b> addresses booking friction by solving 4 core user needs</p>
+            </div>
+            <div class="finding-cards">
+              <div class="finding-card">
+                <p class="finding-label">Decision Flexibility</p>
+                <p class="finding-body">Guests want to lock in a listing while still deciding</p>
+                <p class="finding-fix">Reserve without commitment</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Group Booking</p>
+                <p class="finding-body">Co-traveler cost splitting delays booking</p>
+                <p class="finding-fix">Book first, coordinate later</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Host Protection</p>
+                <p class="finding-body">Hosts need guarantee that held listings convert to paid bookings</p>
+                <p class="finding-fix">Payment before cancellation window</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Budget Planning</p>
+                <p class="finding-body">Travelers want to spread costs across time</p>
+                <p class="finding-fix">Complements Pay Part Now + Klarna</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ DESIGN ═══ -->
+      <section class="panel" id="design-divider" data-group="design">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Design</p>
+            <p class="divider-desc">Shaping the booking experience</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-scope" data-group="design">
+        <div class="panel-inner">
+          <div class="single-col" style="justify-content:center;padding-top:0;">
+            <div>
+              <p class="section-title">Scope</p>
+              <p class="content-p"><b>Design scope</b> for Reserve Now, Pay Later</p>
+            </div>
+            <div class="finding-cards">
+              <div class="finding-card">
+                <p class="finding-label">Entry Point</p>
+                <p class="finding-body">Determine <b>where</b> in the journey to surface the pay-later option</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Selector UI</p>
+                <p class="finding-body">Design the payment <b>picker</b> so guests can compare pay-now vs. pay-later at a glance</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Booking Flow</p>
+                <p class="finding-body">Redesign checkout to surface <b>Pay $0 now</b> as a clear, low-friction option</p>
+              </div>
+              <div class="finding-card">
+                <p class="finding-label">Content</p>
+                <p class="finding-body">Craft messaging that explains <b>deadlines, fees, and terms</b> without cognitive load</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-explore" data-group="design">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:16px;">
+            <div>
+              <p class="section-title">Entry Point</p>
+              <p class="content-p">Explored <b>3 entry points</b> for surfacing Reserve Now, Pay Later</p>
+            </div>
+            <div class="explore-grid" style="align-items:center;">
+
+              <!-- Option A: Payment Page -->
+              <div class="explore-option">
+                <p class="explore-label">Payment Page</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Review and continue</div>
+                  <div class="phone-row">
+                    <span class="phone-row-label">Dimora Natura</span>
+                    <span class="phone-row-value">&#x2605; 4.96</span>
+                  </div>
+                  <div class="phone-row">
+                    <span class="phone-row-label">Dates</span>
+                    <span class="phone-row-link">Oct 17–19</span>
+                  </div>
+                  <div class="phone-row">
+                    <span class="phone-row-label">Guests</span>
+                    <span class="phone-row-value">3 adults</span>
+                  </div>
+                  <div class="phone-row">
+                    <span class="phone-row-label">Total price</span>
+                    <span class="phone-row-value">$388.24 USD</span>
+                  </div>
+                  <div class="phone-row" style="border-bottom:none;">
+                    <span class="phone-row-label">Free cancellation</span>
+                    <span class="phone-row-link">Full policy</span>
+                  </div>
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div>
+                      <span class="radio-text">Pay $0 now</span><br>
+                      <span class="radio-sub">Charged on Oct 8. No extra fees.</span><br>
+                      <span class="radio-sub" style="text-decoration:underline;">More info</span>
+                    </div>
+                  </div>
+                  <div class="phone-btn">Next</div>
+                </div>
+                <span class="explore-badge chosen">Chosen</span>
+                <p class="explore-desc">Payment choice at <b>checkout</b>. User has already committed — low decision cost.</p>
+              </div>
+
+              <!-- Option B: Listing Page -->
+              <div class="explore-option">
+                <p class="explore-label">Listing Page</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div style="background:var(--surface);height:80px;border-radius:8px;margin:4px;display:flex;align-items:center;justify-content:center;">
+                    <span style="font-size:20px;">&#x1f3e1;</span>
+                  </div>
+                  <div style="padding:8px 4px 4px;">
+                    <span class="phone-row-label" style="font-size:14px;font-weight:700;">Dimora Natura</span><br>
+                    <span class="phone-row-value">Bondo Valley Nature Reserve</span>
+                  </div>
+                  <div style="padding:2px 4px;">
+                    <span class="phone-row-value">&#x2605; 4.96 (93) &middot; Superhost</span>
+                  </div>
+                  <div style="border:1px solid var(--border);border-radius:10px;margin:8px 4px;padding:10px;">
+                    <div class="phone-row" style="padding:4px 0;">
+                      <span class="phone-row-label">Check-in</span>
+                      <span class="phone-row-value">Oct 17</span>
+                    </div>
+                    <div class="phone-row" style="padding:4px 0;">
+                      <span class="phone-row-label">Checkout</span>
+                      <span class="phone-row-value">Oct 19</span>
+                    </div>
+                    <div class="phone-row" style="padding:4px 0;border:none;">
+                      <span class="phone-row-label">Guests</span>
+                      <span class="phone-row-value">3 adults</span>
+                    </div>
+                  </div>
+                  <div style="padding:0 4px;font-size:13px;font-weight:700;color:var(--ink);">$388.24 <span style="font-weight:400;color:var(--ink3);font-size:11px;">total</span></div>
+                  <div style="display:flex;gap:6px;padding:8px 4px;">
+                    <div style="flex:1;padding:10px;background:var(--ink);color:#fff;border-radius:8px;text-align:center;font-size:11px;font-weight:600;font-family:var(--title);">Reserve</div>
+                    <div style="flex:1;padding:10px;background:var(--accent);color:#fff;border-radius:8px;text-align:center;font-size:11px;font-weight:600;font-family:var(--title);">Pay $0 now</div>
+                  </div>
+                  <div style="padding:2px 4px;">
+                    <span class="phone-row-value" style="font-size:9px;">Reserve now, pay later &middot; No extra fees</span>
+                  </div>
+                </div>
+                <span class="explore-badge alt">Explored</span>
+                <p class="explore-desc"><b>Two CTAs</b> on listing page. Earlier discovery but splits user attention.</p>
+              </div>
+
+              <!-- Option C: Search Results -->
+              <div class="explore-option">
+                <p class="explore-label">Search Results</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Bondo Valley &middot; Oct 17–19</div>
+                  <div class="phone-chip-row" style="padding:6px 4px;">
+                    <span class="phone-chip">Price</span>
+                    <span class="phone-chip active">Pay Later</span>
+                    <span class="phone-chip">Type</span>
+                    <span class="phone-chip">Filters</span>
+                  </div>
+                  <div style="margin:6px 4px;border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                    <div style="background:var(--surface);height:70px;display:flex;align-items:center;justify-content:center;">
+                      <span style="font-size:18px;">&#x1f3e1;</span>
+                    </div>
+                    <div style="padding:8px 10px;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <span class="phone-row-label">Dimora Natura</span>
+                        <span class="phone-row-value">&#x2605; 4.96</span>
+                      </div>
+                      <span class="phone-row-value">2 nights &middot; $388.24 total</span><br>
+                      <span style="font-size:9px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px;">Pay $0 now</span>
+                    </div>
+                  </div>
+                  <div style="margin:6px 4px;border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                    <div style="background:var(--surface);height:70px;display:flex;align-items:center;justify-content:center;">
+                      <span style="font-size:18px;">&#x1f3d5;</span>
+                    </div>
+                    <div style="padding:8px 10px;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <span class="phone-row-label">Alpine Retreat</span>
+                        <span class="phone-row-value">&#x2605; 4.82</span>
+                      </div>
+                      <span class="phone-row-value">2 nights &middot; $295.00 total</span><br>
+                      <span style="font-size:9px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px;">Pay $0 now</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="explore-badge alt">Explored</span>
+                <p class="explore-desc"><b>Filter + badge</b> on search results. Earliest discovery but may overwhelm listings.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-options" data-group="design">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:16px;">
+            <div>
+              <p class="section-title">Selector UI</p>
+              <p class="content-p"><b>Different use cases</b> for payment options</p>
+            </div>
+            <div class="explore-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;align-items:start;">
+              <!-- Option 1: Single -->
+              <div class="explore-option">
+                <p class="explore-label">1 Option</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Review and continue</div>
+                  <div class="phone-row"><span class="phone-row-label">Total price</span><span class="phone-row-value">$388.24</span></div>
+                  <div class="phone-row" style="border-bottom:none;flex-direction:column;gap:2px;">
+                    <div style="display:flex;justify-content:space-between;width:100%;"><span class="phone-row-label">Free cancellation</span></div>
+                    <span class="radio-sub">Cancel before May 18 for a full refund. <span style="text-decoration:underline;">Full policy</span></span>
+                  </div>
+                  <div class="phone-btn">Pay $388.24 now</div>
+                </div>
+                <p class="explore-desc">Single CTA — <b>no choice</b>, lowest cognitive load but no flexibility</p>
+              </div>
+              <!-- Option 2: Two options -->
+              <div class="explore-option">
+                <p class="explore-label">2 Options</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Review and continue</div>
+                  <div class="phone-row"><span class="phone-row-label">Total price</span><span class="phone-row-value">$388.24</span></div>
+                  <div class="phone-row" style="border-bottom:none;flex-direction:column;gap:2px;">
+                    <div style="display:flex;justify-content:space-between;width:100%;"><span class="phone-row-label">Free cancellation</span></div>
+                    <span class="radio-sub">Cancel before May 18 for a full refund. <span style="text-decoration:underline;">Full policy</span></span>
+                  </div>
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay $0 now</span><br><span class="radio-sub">Charged Oct 8. No fees.</span></div>
+                  </div>
+                  <div class="phone-btn">Next</div>
+                </div>
+                <p class="explore-desc"><b>Clear binary choice</b> — low friction, easy to compare</p>
+              </div>
+              <!-- Option 3: Three options -->
+              <div class="explore-option">
+                <p class="explore-label">3 Options</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Review and continue</div>
+                  <div class="phone-row"><span class="phone-row-label">Total price</span><span class="phone-row-value">$388.24</span></div>
+                  <div class="phone-row" style="border-bottom:none;flex-direction:column;gap:2px;">
+                    <div style="display:flex;justify-content:space-between;width:100%;"><span class="phone-row-label">Free cancellation</span></div>
+                    <span class="radio-sub">Cancel before May 18 for a full refund. <span style="text-decoration:underline;">Full policy</span></span>
+                  </div>
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay $0 now</span><br><span class="radio-sub">Charged Oct 8</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay part now, part later</span><br><span class="radio-sub">$194.12 now, $194.12 Oct 8</span></div>
+                  </div>
+                  <div class="phone-btn">Next</div>
+                </div>
+                <p class="explore-desc">Adds <b>split payment</b> — more flexibility but longer decision time</p>
+              </div>
+              <!-- Option 4: Four options -->
+              <div class="explore-option">
+                <p class="explore-label">4 Options</p>
+                <div class="phone">
+                  <div class="phone-status"><span>9:41</span><span>&#x1f4f6;</span></div>
+                  <div class="phone-header">Review and continue</div>
+                  <div class="phone-row"><span class="phone-row-label">Total price</span><span class="phone-row-value">$388.24</span></div>
+                  <div class="phone-row" style="border-bottom:none;flex-direction:column;gap:2px;">
+                    <div style="display:flex;justify-content:space-between;width:100%;"><span class="phone-row-label">Free cancellation</span></div>
+                    <span class="radio-sub">Cancel before May 18 for a full refund. <span style="text-decoration:underline;">Full policy</span></span>
+                  </div>
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio selected" style="padding:6px 8px;">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio" style="padding:6px 8px;">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay $0 now</span><br><span class="radio-sub">Charged Oct 8</span></div>
+                  </div>
+                  <div class="phone-radio" style="padding:6px 8px;">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Part now, part later</span><br><span class="radio-sub">$194.12 + $194.12</span></div>
+                  </div>
+                  <div class="phone-radio" style="padding:6px 8px;">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Monthly with Klarna</span><br><span class="radio-sub">4 × $97.06/mo</span></div>
+                  </div>
+                  <div class="phone-btn">Next</div>
+                </div>
+                <p class="explore-desc"><b>Full ecosystem</b> — maximum flexibility but risks choice overload</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-content" data-group="design">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:16px;">
+            <div>
+              <p class="section-title">Content</p>
+              <p class="content-p">Considered for <b>clarity, scalability, globalization</b> for content</p>
+            </div>
+            <div class="explore-grid content-phones" style="grid-template-columns:1fr 1fr 1fr;align-items:start;">
+              <!-- V1: Minimal -->
+              <div class="explore-option">
+                <p class="explore-label">V1 — Minimal</p>
+                <div class="phone">
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Pay $0 now</span><br><span class="radio-sub">Charged Oct 8</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Part now, part later</span><br><span class="radio-sub">$194.12 + $194.12</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div><span class="radio-text">Monthly with Klarna</span><br><span class="radio-sub">4 × $97.06/mo</span></div>
+                  </div>
+                </div>
+                <p class="explore-desc">Short labels — <b>fast to scan</b> but lacks detail on fees and deadlines</p>
+              </div>
+              <!-- V2: Detailed -->
+              <div class="explore-option">
+                <p class="explore-label">V2 — Detailed</p>
+                <div class="phone">
+                  <p class="phone-section-title">Choose when to pay</p>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pay $388.24 now</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div>
+                      <span class="radio-text">Pay $0 now</span><br>
+                      <span class="radio-sub">$388.24 charged on Oct 8. No extra fees.</span><br>
+                      <span class="radio-sub" style="text-decoration:underline;">More info</span>
+                    </div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div>
+                      <span class="radio-text">Pay monthly with Klarna</span><br>
+                      <span class="radio-sub">From $97.06 per month for 4 months.</span><br>
+                      <span class="radio-sub">Interest may apply. <span style="text-decoration:underline;">More info</span></span>
+                    </div>
+                  </div>
+                </div>
+                <p class="explore-desc"><b>Full transparency</b> — charge date, fees, and expandable details</p>
+              </div>
+              <!-- V3: Spanish -->
+              <div class="explore-option">
+                <p class="explore-label">V2 — Spanish</p>
+                <div class="phone">
+                  <p class="phone-section-title">Elige cuándo pagar</p>
+                  <div class="phone-radio selected">
+                    <div class="radio-dot filled"></div>
+                    <div><span class="radio-text">Pagar $388.24 ahora</span></div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div>
+                      <span class="radio-text">Pagar $0 ahora</span><br>
+                      <span class="radio-sub">Se cobrarán $388.24 el 8 de oct. Sin cargos adicionales.</span><br>
+                      <span class="radio-sub" style="text-decoration:underline;">Más información</span>
+                    </div>
+                  </div>
+                  <div class="phone-radio">
+                    <div class="radio-dot"></div>
+                    <div>
+                      <span class="radio-text">Pagar mensual con Klarna</span><br>
+                      <span class="radio-sub">Desde $97.06 al mes por 4 meses.</span><br>
+                      <span class="radio-sub">Pueden aplicar intereses. <span style="text-decoration:underline;">Más info</span></span>
+                    </div>
+                  </div>
+                </div>
+                <p class="explore-desc"><b>Localized content</b> — same structure adapted for Spanish-speaking markets</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-flow" data-group="design">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:20px;">
+            <div>
+              <p class="section-title">Booking Flow</p>
+              <p class="content-p">Explored <b>2 end-to-end flows</b> — where should Pay Later appear?</p>
+            </div>
+            <!-- Flow A: Standard booking -->
+            <div style="border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+                <span style="font-family:var(--title);font-weight:700;font-size:16px;color:var(--ink);">A. Standard Booking</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:8px;">
+                <!-- Step 1: existing -->
+                <div style="text-align:center;flex:1;opacity:0.5;">
+                  <div style="border-radius:12px;background:var(--bg);border:1px solid var(--border);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Search</p>
+                    <p style="font-size:11px;color:var(--ink3);margin-top:6px;">Browse listings</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 2: existing -->
+                <div style="text-align:center;flex:1;opacity:0.5;">
+                  <div style="border-radius:12px;background:var(--bg);border:1px solid var(--border);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Dates</p>
+                    <p style="font-size:11px;color:var(--ink3);margin-top:6px;">Select dates</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 3: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Reserve</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Single CTA</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 4: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Checkout</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Payment selector</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 5: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Confirmed</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Pay $0 now</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Chosen + why -->
+              <div style="margin-top:16px;padding:12px 16px;background:var(--accent-light);border-radius:10px;display:flex;align-items:flex-start;gap:10px;">
+                <span class="explore-badge chosen" style="position:static;flex-shrink:0;margin-top:1px;">Chosen</span>
+                <p style="font-size:12px;color:var(--ink);line-height:1.5;">Fits the <b>existing mental model</b>. Payment options appear at checkout, the natural decision point. Lower cognitive load, higher conversion.</p>
+              </div>
+            </div>
+            <!-- Flow B: Early discovery -->
+            <div style="border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+                <span style="font-family:var(--title);font-weight:700;font-size:16px;color:var(--ink);">B. Early Discovery</span>
+                <span class="explore-badge alt" style="position:static;margin-left:8px;">Explored</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:8px;">
+                <!-- Step 1: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Search</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Pay Later filter</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 2: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Listing</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Dual CTA</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 3: existing -->
+                <div style="text-align:center;flex:1;opacity:0.5;">
+                  <div style="border-radius:12px;background:var(--bg);border:1px solid var(--border);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Dates</p>
+                    <p style="font-size:11px;color:var(--ink3);margin-top:6px;">Select dates</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 4: existing -->
+                <div style="text-align:center;flex:1;opacity:0.5;">
+                  <div style="border-radius:12px;background:var(--bg);border:1px solid var(--border);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Checkout</p>
+                    <p style="font-size:11px;color:var(--ink3);margin-top:6px;">$0 pre-selected</p>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:28px;"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="var(--ink3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Step 5: impacted -->
+                <div style="text-align:center;flex:1;">
+                  <div style="border-radius:12px;background:var(--accent-light);border:2px solid var(--accent);padding:20px 12px;">
+                    <p style="font-family:var(--title);font-size:16px;font-weight:600;color:var(--ink);">Confirmed</p>
+                    <p style="font-size:11px;color:var(--accent);margin-top:6px;font-weight:500;">Auto pay later</p>
+                  </div>
+                </div>
+              </div>
+              <p style="font-size:12px;color:var(--ink3);margin-top:16px;line-height:1.5;">Surfaces Pay Later <b>earlier via filter + dual CTA</b> — higher discovery but risks <b>decision paralysis</b> and splits user attention</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="design-final" data-group="design">
+        <div class="panel-inner">
+          <div style="display:flex;flex-direction:column;height:100%;justify-content:center;gap:16px;">
+            <div>
+              <p class="section-title">Final Design</p>
+              <p class="content-p"><b>End-to-end Reserve Now, Pay Later</b> booking flow</p>
+            </div>
+            <!-- Step labels above images -->
+            <div style="display:flex;gap:16px;">
+              <div style="flex:1;text-align:center;">
+                <span style="font-family:var(--title);font-size:14px;font-weight:700;color:var(--ink);">1. Select Listing</span>
+              </div>
+              <div style="flex:1;text-align:center;">
+                <span style="font-family:var(--title);font-size:14px;font-weight:700;color:var(--ink);">2. Choose Dates</span>
+              </div>
+              <div style="flex:1;text-align:center;">
+                <span style="font-family:var(--title);font-size:14px;font-weight:700;color:var(--ink);">3. Reserve</span>
+              </div>
+              <div style="flex:1;text-align:center;">
+                <span style="font-family:var(--title);font-size:14px;font-weight:700;color:var(--ink);">4. Select Options</span>
+              </div>
+              <div style="flex:1;text-align:center;">
+                <span style="font-family:var(--title);font-size:14px;font-weight:700;color:var(--ink);">5. Check Details</span>
+              </div>
+            </div>
+            <!-- Images row -->
+            <div style="display:flex;gap:16px;align-items:center;">
+              <div style="flex:1;">
+                <img src="images/reserve-1.jpg" alt="Select Listing" style="width:100%;display:block;object-fit:contain;border-radius:36px;border:1px solid var(--border);" />
+              </div>
+              <div style="flex:1;">
+                <img src="images/reserve-2.jpg" alt="Choose Dates" style="width:100%;display:block;object-fit:contain;border-radius:36px;border:1px solid var(--border);" />
+              </div>
+              <div style="flex:1;">
+                <img src="images/reserve-3.jpg" alt="Reserve" style="width:100%;display:block;object-fit:contain;border-radius:36px;border:1px solid var(--border);" />
+              </div>
+              <div style="flex:1;">
+                <img src="images/reserve-4a.jpg" alt="Select Option" style="width:100%;display:block;object-fit:contain;border-radius:36px;border:1px solid var(--border);" />
+              </div>
+              <div style="flex:1;">
+                <img src="images/reserve-5.jpg" alt="Pay $0 Now" style="width:100%;display:block;object-fit:contain;border-radius:36px;border:1px solid var(--border);" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ IMPACT ═══ -->
+      <section class="panel" id="impact-divider" data-group="impact">
+        <div class="panel-inner">
+          <div class="divider-page">
+            <p class="divider-title">Impact</p>
+            <p class="divider-desc">Measurable results</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="impact-metrics" data-group="impact">
+        <div class="panel-inner">
+          <div style="display:flex;height:100%;gap:28px;align-items:center;">
+            <!-- Left: stats -->
+            <div style="flex:1;display:flex;flex-direction:column;gap:20px;">
+              <div>
+                <p class="section-title">Impact</p>
+                <p class="content-p"><b>Reserve Now, Pay Later</b> drove Airbnb's fastest growth quarter in 2+ years</p>
+              </div>
+              <!-- Big stats 2x2 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">70%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Adoption rate</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">eligible bookings Q4 2025</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">+16%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">GBV growth YoY</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">$20.4B gross booking value</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">+10%</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Nights booked YoY</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">121.9M nights in Q4</p>
+                </div>
+                <div style="background:var(--surface);border-radius:16px;padding:24px 20px;">
+                  <p style="font-family:var(--title);font-size:44px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-0.03em;">$2.8B</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:500;">Q4 revenue</p>
+                  <p style="font-size:11px;color:var(--ink3);margin-top:2px;">+12% YoY, beat guidance</p>
+                </div>
+              </div>
+              <p style="font-size:10px;color:var(--ink3);line-height:1.4;">Sources: Airbnb Q4 2025 Earnings · TechCrunch · Rental Scale-Up</p>
+            </div>
+            <!-- Right: image -->
+            <div style="flex:1;">
+              <div class="slide-img">
+                <img src="images/airbnb_hero_us.jpg" alt="US rollout" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="impact-insights" data-group="impact">
+        <div class="panel-inner">
+          <div style="display:flex;height:100%;gap:28px;align-items:center;">
+            <!-- Left: insights -->
+            <div style="flex:1;display:flex;flex-direction:column;gap:20px;">
+              <div>
+                <p class="section-title">RNPL Insights</p>
+                <p class="content-p">How <b>Reserve Now, Pay Later</b> changed booking behavior</p>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div style="border-left:3px solid var(--accent);padding:16px 20px;background:var(--surface);border-radius:0 12px 12px 0;">
+                  <p style="font-family:var(--title);font-size:24px;font-weight:700;color:var(--ink);line-height:1.2;">+300 bps</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.4;">RNPL contributed <b>300 basis points</b> to GBV growth in Q4</p>
+                </div>
+                <div style="border-left:3px solid var(--accent);padding:16px 20px;background:var(--surface);border-radius:0 12px 12px 0;">
+                  <p style="font-family:var(--title);font-size:24px;font-weight:700;color:var(--ink);line-height:1.2;">4+ bedrooms</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.4;">Mix shift toward <b>larger homes</b> and longer booking lead times</p>
+                </div>
+                <div style="border-left:3px solid var(--accent);padding:16px 20px;background:var(--surface);border-radius:0 12px 12px 0;">
+                  <p style="font-family:var(--title);font-size:24px;font-weight:700;color:var(--ink);line-height:1.2;">+1% cancel</p>
+                  <p style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.4;">Cancellation rose 16→17%, <b>offset by higher bookings</b> — net positive</p>
+                </div>
+              </div>
+            </div>
+            <!-- Right: same image -->
+            <div style="flex:1;">
+              <div class="slide-img">
+                <img src="images/airbnb_hero_us.jpg" alt="US rollout" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="impact-takeaways" data-group="impact">
+        <div class="panel-inner">
+          <div class="split">
+            <div class="split-text">
+              <p class="section-title">What I Learned</p>
+              <p class="content-p">Key takeaways from designing <b>Reserve Now, Pay Later</b></p>
+            </div>
+            <div>
+              <ul class="content-list">
+                <li><b>Follow global trends</b> — BNPL was already reshaping e-commerce; applying it to travel meant meeting users where their expectations already were</li>
+                <li><b>Survey early to validate fast</b> — a quick survey with 1,000+ users confirmed demand before investing in design, saving weeks of speculative work</li>
+                <li><b>Flexibility is the unlock</b> — reducing upfront commitment anxiety drove adoption more than any UI optimization could</li>
+                <li><b>Design for the ecosystem</b> — balancing guest flexibility with host protection required thinking beyond a single flow</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const main = document.getElementById('main');
+    const panels = document.querySelectorAll('.panel');
+    const allNavItems = document.querySelectorAll('.nav-item[data-target]');
+    const navSubs = document.querySelectorAll('.nav-sub');
+    const parentNavItems = document.querySelectorAll('.side-section > .nav-item[data-target]');
+
+    const overviewLayers = ['overview', 'about', 'role', 'impact'];
+    let overviewLayer = 'overview';
+    let overviewLayerIdx = 0;
+
+    const layerEls = {
+      overview: document.getElementById('layer-overview'),
+      about: document.getElementById('layer-about'),
+      role: document.getElementById('layer-role'),
+      impact: document.getElementById('layer-impact')
+    };
+
+    function setOverviewLayer(which) {
+      overviewLayer = which;
+      overviewLayerIdx = overviewLayers.indexOf(which);
+      Object.entries(layerEls).forEach(([key, el]) => {
+        el.classList.toggle('active', key === which);
+      });
+      navSubs.forEach(sub => {
+        if (sub.dataset.parent === 'overview') {
+          sub.querySelectorAll('.nav-item').forEach(si => {
+            si.classList.toggle('active', si.dataset.target === 'overview-' + which);
+          });
+        }
+      });
+      history.replaceState(null, '', '#overview-' + which);
+      updatePageCounter();
+      if (which === 'impact') {
+        const statEls = layerEls.impact.querySelectorAll('.stat-number[data-count-to]');
+        statEls.forEach((el, i) => animateCount(el, 200 + i * 150));
+      }
+    }
+
+    allNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        if (target === 'overview-overview' || target === 'overview-about' || target === 'overview-role' || target === 'overview-impact') {
+          const el = document.getElementById('overview-project');
+          if (el) main.scrollTo({ top: el.offsetTop });
+          setOverviewLayer(target.replace('overview-', ''));
+          return;
+        }
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    // ── Click parent nav → also scroll to that section ──
+    parentNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.dataset.target;
+        const el = document.getElementById(target);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      });
+    });
+
+    const overviewPanel = document.getElementById('overview-project');
+
+    overviewPanel.addEventListener('wheel', (e) => {
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isVisible = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+      if (!isVisible) return;
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        if (overviewLayerIdx < overviewLayers.length - 1) {
+          setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+        } else {
+          let target = overviewPanel.nextElementSibling;
+          while (target && target.style.display === 'none') target = target.nextElementSibling;
+          if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+        }
+      } else if (e.deltaY < 0 && overviewLayerIdx > 0) {
+        e.preventDefault();
+        setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+      }
+    }, { passive: false });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'r' || e.key === 'R') {
+        main.scrollTo({ top: overviewPanel.offsetTop, behavior: 'smooth' });
+        setOverviewLayer('overview');
+        return;
+      }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const rect = overviewPanel.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
+      const isOverview = rect.top >= mainRect.top - 10 && rect.top <= mainRect.top + 10;
+      if (isOverview) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (overviewLayerIdx < overviewLayers.length - 1) {
+            setOverviewLayer(overviewLayers[overviewLayerIdx + 1]);
+          } else {
+            let target = overviewPanel.nextElementSibling;
+            while (target && target.style.display === 'none') target = target.nextElementSibling;
+            if (target) main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+          }
+        } else if (e.key === 'ArrowUp' && overviewLayerIdx > 0) {
+          e.preventDefault();
+          setOverviewLayer(overviewLayers[overviewLayerIdx - 1]);
+        }
+      } else {
+        e.preventDefault();
+        const idx = currentVisiblePanelIdx;
+        if (e.key === 'ArrowDown' && idx < visiblePanels.length - 1) {
+          main.scrollTo({ top: visiblePanels[idx + 1].offsetTop, behavior: 'smooth' });
+        } else if (e.key === 'ArrowUp' && idx > 0) {
+          main.scrollTo({ top: visiblePanels[idx - 1].offsetTop, behavior: 'smooth' });
+        }
+      }
+    });
+
+    let activeGroup = 'overview';
+    let currentVisiblePanelIdx = 0;
+    const visiblePanels = Array.from(panels).filter(p => p.style.display !== 'none');
+    const totalPages = overviewLayers.length + visiblePanels.length;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const panel = entry.target;
+          const id = panel.id;
+          const group = panel.dataset.group;
+          activeGroup = group;
+          currentVisiblePanelIdx = visiblePanels.indexOf(panel);
+          updatePageCounter();
+          const hashId = group === 'overview' ? 'overview-' + overviewLayer : id;
+          if (location.hash !== '#' + hashId) history.replaceState(null, '', '#' + hashId);
+          parentNavItems.forEach(n => {
+            const nTarget = n.dataset.target;
+            const nPanel = document.getElementById(nTarget);
+            const nGroup = nPanel ? nPanel.dataset.group : null;
+            n.classList.toggle('active', nGroup === group);
+          });
+          navSubs.forEach(sub => {
+            const isActive = sub.dataset.parent === group;
+            if (isActive) { sub.classList.add('open'); sub.style.maxHeight = sub.scrollHeight + 'px'; }
+            else { sub.classList.remove('open'); sub.style.maxHeight = '0'; }
+          });
+          navSubs.forEach(sub => {
+            if (sub.dataset.parent === 'overview') {
+              if (group === 'overview') {
+                sub.querySelectorAll('.nav-item').forEach(si => {
+                  si.classList.toggle('active', si.dataset.target === 'overview-' + overviewLayer);
+                });
+              }
+            } else {
+              const navId = panel.dataset.nav || id;
+              sub.querySelectorAll('.nav-item').forEach(si => {
+                si.classList.toggle('active', si.dataset.target === navId);
+              });
+            }
+          });
+        }
+      });
+    }, { root: main, threshold: 0.5 });
+
+    panels.forEach(p => observer.observe(p));
+
+    const pageCounter = document.getElementById('pageCounter');
+    function updatePageCounter() {
+      let page = currentVisiblePanelIdx === 0 ? overviewLayerIdx + 1 : overviewLayers.length + currentVisiblePanelIdx;
+      pageCounter.textContent = page + '/' + totalPages;
+    }
+
+    function animateCount(el, delay) {
+      const target = parseFloat(el.dataset.countTo);
+      if (isNaN(target)) return;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const duration = 1000;
+      let startTime = null;
+      el.textContent = prefix + '0' + suffix;
+      setTimeout(() => {
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          el.textContent = prefix + current.toFixed(decimals) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = prefix + target.toFixed(decimals) + suffix;
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    const dividerObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+        else entry.target.classList.remove('visible');
+      });
+    }, { root: main, threshold: 0.5 });
+    document.querySelectorAll('.divider-page').forEach(d => dividerObserver.observe(d));
+
+    if (location.hash) {
+      const hash = location.hash.slice(1);
+      if (hash.startsWith('overview-')) {
+        const layer = hash.replace('overview-', '');
+        if (overviewLayers.includes(layer)) {
+          const el = document.getElementById('overview-project');
+          if (el) main.scrollTo({ top: el.offsetTop });
+          setOverviewLayer(layer);
+        }
+      } else {
+        const el = document.getElementById(hash);
+        if (el) main.scrollTo({ top: el.offsetTop });
+      }
+    }
+
+    document.addEventListener('click', e => {
+      const dd = document.getElementById('pageDropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>
