@@ -500,6 +500,7 @@
       max-width: 700px;
       margin-top: 16px;
     }
+    #slide-32 .slide-sub { max-width: none; }
 
     .hl-blue { color: var(--accent); }
     .hl-red { color: #E03030; }
@@ -776,6 +777,27 @@
       padding: 0 64px 48px;
     }
 
+    .idea-tab {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .idea-tab:hover { color: var(--ink); border-color: var(--ink3); }
+    .idea-tab.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .idea-panel { display: none; }
+    .idea-panel.active { display: grid; }
+
     .project-card {
       background: #fff;
       border-radius: 16px;
@@ -830,11 +852,12 @@
       <div class="dropdown" id="pageDropdown">
         <div class="dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Workshop</div>
         <div class="dropdown-menu">
-          <a class="dropdown-option" href="sample1.html">Sample 1 — Hygge</a>
-          <a class="dropdown-option" href="sample2.html">Sample 2 — Airbnb</a>
-          <a class="dropdown-option" href="sample3.html">Sample 3 — Airbnb Connections</a>
           <a class="dropdown-option current" href="index.html">Workshop</a>
-          <a class="dropdown-option" href="exercises.html">Exercises</a>
+          <a class="dropdown-option" href="exercise.html">Exercise</a>
+          <hr style="border:none;border-top:1px solid var(--border);margin:4px 0;">
+          <a class="dropdown-option" href="sample1.html">Portfolio 1</a>
+          <a class="dropdown-option" href="sample2.html">Portfolio 2</a>
+          <a class="dropdown-option" href="sample3.html">Portfolio 3</a>
         </div>
       </div>
     </div>
@@ -854,9 +877,9 @@
       <div class="nav-sub" data-parent="pp">
         <a class="nav-item" data-target="slide-28" data-nav-group="pp-ideas">Ideas</a>
       </div>
-      <a class="nav-item nav-parent" data-target="slide-31">Mock Interviewer Panel</a>
+      <a class="nav-item nav-parent" data-target="slide-31">Exercise: Play the Interviewer</a>
       <div class="nav-sub" data-parent="gd">
-        <a class="nav-item" data-target="slide-32" data-nav-group="gd-exercises">Exercises</a>
+        <a class="nav-item" data-target="slide-32" data-nav-group="gd-exercises">Exercise</a>
       </div>
     </div>
   </nav>
@@ -878,15 +901,15 @@
       <div class="panel-inner">
         <div class="about-content">
           <div class="avatar">
-            <img src="workshop/profile.jpg" alt="Mu Jiun Shie" onerror="this.style.display='none'" />
+            <img src="images/avatar.jpg" alt="Mu Jiun Shie" onerror="this.style.display='none'" />
           </div>
           <div class="name-card">
             <h2>Mu Jiun Shie</h2>
             <p>Senior Product Designer @ Meta</p>
           </div>
           <div class="about-stats">
-            <p>8 years of work experience</p>
-            <p>experienced interviewee & interviewer</p>
+            <p>8 Years of Work Experience</p>
+            <p>Both Sides of the Table — 100+ Interviews as Designer & Hiring Panelist</p>
           </div>
         </div>
       </div>
@@ -899,16 +922,16 @@
           <h2 class="agenda-heading">What we'll go through today...</h2>
           <div class="agenda-grid">
             <div class="agenda-item">
-              <span class="agenda-time">15 mins</span>
+              <span class="agenda-time">15 min</span>
               <span class="agenda-label">Design Thinking for Interview Prep</span>
             </div>
             <div class="agenda-item">
-              <span class="agenda-time">10 mins</span>
+              <span class="agenda-time">5 min</span>
               <span class="agenda-label">Portfolio Project Ideas</span>
             </div>
             <div class="agenda-item">
-              <span class="agenda-time">25 mins</span>
-              <span class="agenda-label">Mock Interviewer Panel</span>
+              <span class="agenda-time">40 min</span>
+              <span class="agenda-label">Exercise: Play the Interviewer</span>
             </div>
           </div>
         </div>
@@ -985,7 +1008,7 @@
             <p class="slide-sub">build it with Google Docs, scan resume with free ATS tool</p>
           </div>
           <div class="slide-split-img">
-            <img src="workshop/images/page10_img1.jpeg" alt="ATS resume example" />
+            <img src="workshop/images/page10_img2.jpg" alt="ATS resume example" />
           </div>
         </div>
       </div>
@@ -997,12 +1020,11 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Resume Tip #2</p>
-            <div class="slide-heading">Tailor resume (experience, sub-title) to increase <span class="hl-blue">relevancy</span></div>
+            <div class="slide-heading">Tailor resume (experience, subtitle) to increase <span class="hl-blue">relevance</span></div>
             <p class="slide-sub">mention industry or type of products you worked on</p>
           </div>
-          <div class="slide-split-img" style="flex-direction:column;gap:12px;">
-            <img src="workshop/images/page11_img3.jpeg" alt="Resume example 1" />
-            <img src="workshop/images/page11_img4.jpeg" alt="Resume example 2" />
+          <div class="slide-split-img">
+            <img src="workshop/images/page11_img2.png" alt="Resume example" />
           </div>
         </div>
       </div>
@@ -1016,7 +1038,7 @@
           <div class="slide-split" style="padding-top:48px;">
             <div class="slide-split-col">
               <p class="tip-label">Resume Tip #3</p>
-              <div class="slide-heading">Use <span class="hl-blue">AI tool</span> to refine your wording, cover all relevant skills</div>
+              <div class="slide-heading">Use <span class="hl-blue">AI tools</span> to refine your wording, cover all relevant skills</div>
               <p class="slide-sub">UX skills: design / collaboration / leadership / problem-solving</p>
             </div>
             <div class="slide-split-col">
@@ -1040,13 +1062,13 @@
           <div class="slide-split" style="padding-top:48px;">
             <div class="slide-split-col">
               <p class="tip-label">Resume Tip #3</p>
-              <div class="slide-heading">Use <span class="hl-blue">AI tool</span> to refine your wording, cover all relevant skills</div>
+              <div class="slide-heading">Use <span class="hl-blue">AI tools</span> to refine your wording, cover all relevant skills</div>
               <p class="slide-sub">UX skills: design / collaboration / leadership / problem-solving</p>
             </div>
             <div class="slide-split-col">
               <div class="white-card">
                 <p class="white-card-label">Example Output</p>
-                <p>&bull; <b>Designed</b> an unified experiences across xyz pages by mapping cross-surface journeys and standardizing IA and components, reducing fragmentation and improving usability consistency.<br><br>
+                <p>&bull; <b>Designed</b> a unified experience across xyz pages by mapping cross-surface journeys and standardizing IA and components, reducing fragmentation and improving usability consistency.<br><br>
                 &bull; <b>Shaped product strategy</b> and defined end-to-end flows for XXX tool, reduced 60% user clicks on XX setup and improved adoption.<br><br>
                 &bull; <b>Partnered with</b> Product, Engineering, and Research to define strategy and MVP scope by aligning goals, assumptions, and success metrics, increasing delivery focus and faster iteration.<br><br>
                 &bull; Shipped MVP product in one month and <b>pivoted directions</b> with early results, leading to goal exceeding.</p>
@@ -1064,7 +1086,7 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Resume Tip #4</p>
-            <div class="slide-heading"><span class="hl-blue">Apply early</span>, ideally within the 24 hours</div>
+            <div class="slide-heading"><span class="hl-blue">Apply early</span>, ideally within 24 hours</div>
             <p class="slide-sub">many jobs can get 1000+ applicants in just a few days</p>
           </div>
           <div class="slide-split-img">
@@ -1080,8 +1102,8 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label red">User Problems</p>
-            <div class="slide-heading">Recruiters are busy, they may spend <span class="hl-red">only 30 seconds scanning a portfolio site</span>, mostly on the homepage</div>
-            <p class="callout-question">So how can you quickly catch attention and demonstrate your profile / design skills?</p>
+            <div class="slide-heading">Recruiters are busy — they may spend <span class="hl-red">only 30 seconds on a portfolio site</span>, mostly on the homepage</div>
+            <p class="callout-question">How can you quickly grab attention and showcase your design skills?</p>
           </div>
           <div class="slide-split-img">
             <img src="workshop/images/page15_img1.gif" alt="" style="border-radius:8px;" />
@@ -1096,8 +1118,8 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Site Tip #1</p>
-            <div class="slide-heading">More time designing your <span class="hl-blue">homepage</span> and web visual theme</div>
-            <p class="slide-sub">here are some strong example</p>
+            <div class="slide-heading">Spend more time designing your <span class="hl-blue">homepage</span> and overall visual style</div>
+            <p class="slide-sub">here are some strong examples &rarr; <a href="https://www.cofolios.com/" target="_blank" style="color:var(--accent);text-decoration:underline;">cofolios.com</a></p>
           </div>
           <div class="slide-split-img">
             <div class="white-card" style="width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;">
@@ -1114,9 +1136,8 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Site Tip #2</p>
-            <div class="slide-heading">With tools like Framer and AI, the <span class="hl-blue">craft bar is higher</span> for portfolio sites. Make sure you keep up</div>
-            <p class="slide-sub">if visual design or craft isn&rsquo;t your strength, <span class="hl-blue">use templates or AI tools to support your execution</span> and spend more time on what you do best</p>
-            <p class="slide-sub" style="margin-top:24px;">Use ADPList to gather feedback from senior designers and learn how to improve your portfolio site</p>
+            <div class="slide-heading">Framer and AI have raised the bar for <span class="hl-blue">portfolio craft</span></div>
+            <p class="slide-sub">If craft isn&rsquo;t your strength, lean on templates and AI so you can focus on what you do best. Use <a href="https://adplist.org/" target="_blank" style="color:var(--accent);text-decoration:underline;">ADPList</a> to get senior designer feedback on your portfolio</p>
           </div>
           <div class="slide-split-img">
             <div class="white-card" style="width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;">
@@ -1135,7 +1156,7 @@
           <div class="slide-split" style="padding-top:48px;">
             <div class="slide-split-col">
               <p class="tip-label red">User Problems</p>
-              <div class="slide-heading">Hiring panels want <span class="hl-red">multiple signals to build confidence</span> that you can succeed in the role, and they&rsquo;ll evaluate key skills through your portfolio presentation</div>
+              <div class="slide-heading">Hiring panels evaluate key skills through your portfolio presentation — they&rsquo;re looking for <span class="hl-red">multiple signals</span> that you can succeed in this role</div>
             </div>
             <div class="slide-split-img">
               <img src="workshop/images/page18_img1.gif" alt="" style="border-radius:12px;" />
@@ -1149,11 +1170,11 @@
           <div class="slide-split" style="padding-top:48px;">
             <div class="slide-split-col">
               <p class="tip-label red">User Problems</p>
-              <div class="slide-heading">Signals for <span class="hl-red">key UX skills</span></div>
+              <div class="slide-heading"><span class="hl-red">Key signals</span> of a solid UX/product designer</div>
               <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px;">
                 <p class="slide-sub" style="margin-top:0;"><b style="color:var(--ink);">design</b> - visuals, interaction, information architecture, end-to-end flow</p>
-                <p class="slide-sub" style="margin-top:0;"><b style="color:var(--ink);">collaboration / leadership</b> - deal with conflict, consider different needs from stakeholders</p>
-                <p class="slide-sub" style="margin-top:0;"><b style="color:var(--ink);">problem-solving</b> - discover or clarify problems, explore different solutions, inform decisions, validate hypothesis</p>
+                <p class="slide-sub" style="margin-top:0;"><b style="color:var(--ink);">collaboration / leadership</b> - navigate conflict, balance competing stakeholder needs</p>
+                <p class="slide-sub" style="margin-top:0;"><b style="color:var(--ink);">problem-solving</b> - discover or clarify problems, explore different solutions, inform decisions, validate hypotheses</p>
               </div>
             </div>
             <div class="slide-split-img">
@@ -1165,36 +1186,36 @@
 
     </section>
 
-    <!-- ═══ PAGE 20: PORTFOLIO DECK TIP #1 ═══ -->
-    <section class="panel panel-content" id="slide-20">
-      <div class="panel-inner">
-        <div class="slide-split">
-          <div class="slide-split-col">
-            <p class="tip-label">Portfolio Deck Tip #1</p>
-            <div class="slide-heading">Don&rsquo;t show your projects like a documentary</div>
-            <p class="slide-sub">too much details, linear storytelling, one problem one solutions, only talk about design</p>
-          </div>
-          <div class="slide-split-col" style="align-items:center;">
-            <div class="white-card" style="width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;">
-              <p style="color:var(--ink3);font-family:var(--mono);font-size:14px;text-align:center;">documentary style</p>
+    <!-- ═══ PAGE 20/21: PORTFOLIO DECK TIP #1 & #2 (stacked, 2-col with opacity toggle) ═══ -->
+    <section class="panel" id="slide-deck-tips-stack" style="position:relative;background:#EBEBEB;">
+      <div class="panel-stacked active" id="slide-20">
+        <div class="panel-inner">
+          <div class="slide-split" style="grid-template-columns:1fr 1fr;">
+            <div class="slide-split-col">
+              <p class="tip-label">Portfolio Deck Tip #1</p>
+              <div class="slide-heading">Don&rsquo;t show your projects like a <span class="hl-blue">personal documentary</span></div>
+              <p class="slide-sub">too many details, linear storytelling, one problem one solution, only talk about design</p>
+            </div>
+            <div class="slide-split-col" style="opacity:0.2;">
+              <p class="tip-label">Portfolio Deck Tip #2</p>
+              <div class="slide-heading">Show your projects like a <span class="hl-blue">hero-designer movie</span></div>
+              <p class="slide-sub">straightforward to problems, overcame challenges, explored different approaches, partnered with others</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- ═══ PAGE 21: PORTFOLIO DECK TIP #2 ═══ -->
-    <section class="panel panel-content" id="slide-21">
-      <div class="panel-inner">
-        <div class="slide-split">
-          <div class="slide-split-col">
-            <p class="tip-label">Portfolio Deck Tip #2</p>
-            <div class="slide-heading">Show your projects like a <span class="hl-blue">hero movie</span></div>
-            <p class="slide-sub">how you overcame challenges, how you tried to fight in different ways, how you partner with other to find ideal solution..etc</p>
-          </div>
-          <div class="slide-split-col" style="align-items:center;">
-            <div class="white-card" style="width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;">
-              <p style="color:var(--ink3);font-family:var(--mono);font-size:14px;text-align:center;">hero movie style</p>
+      <div class="panel-stacked" id="slide-21">
+        <div class="panel-inner">
+          <div class="slide-split" style="grid-template-columns:1fr 1fr;">
+            <div class="slide-split-col" style="opacity:0.2;">
+              <p class="tip-label">Portfolio Deck Tip #1</p>
+              <div class="slide-heading">Don&rsquo;t show your projects like a <span class="hl-blue">personal documentary</span></div>
+              <p class="slide-sub">too many details, linear storytelling, one problem one solution, only talk about design</p>
+            </div>
+            <div class="slide-split-col">
+              <p class="tip-label">Portfolio Deck Tip #2</p>
+              <div class="slide-heading">Show your projects like a <span class="hl-blue">hero-designer movie</span></div>
+              <p class="slide-sub">straightforward to problems, overcame challenges, explored different approaches, partnered with others</p>
             </div>
           </div>
         </div>
@@ -1208,7 +1229,7 @@
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Deck Tip #3</p>
             <div class="slide-heading">Follow this agenda for your project</div>
-            <p class="slide-sub">this is a common structure for project walkthrough and you can make adjustment based on your condition</p>
+            <p class="slide-sub">this is a common structure for project walkthroughs and you can make adjustments based on your situation</p>
           </div>
           <div class="slide-split-col" style="align-items:center;">
             <div class="agenda-card">
@@ -1230,7 +1251,7 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Deck Tip #4</p>
-            <div class="slide-heading">Talk about problems and insights that <span class="hl-blue">tie straightly to your solutions</span></div>
+            <div class="slide-heading">Talk about problems and insights that <span class="hl-blue">tie directly to your solutions</span></div>
             <p class="slide-sub">see example in next page</p>
           </div>
           <div class="slide-split-col" style="align-items:center;">
@@ -1261,10 +1282,10 @@
               <div class="comparison-arrow">&longrightarrow;</div>
               <div class="comparison-col">
                 <p class="comparison-col-label" style="color:#9A958E;">solutions</p>
-                <p><b>a social app</b> to combines peer community support with tools for anxiety and stress management.</p>
+                <p><b>a social app</b> that combines peer community support with tools for anxiety and stress management.</p>
               </div>
             </div>
-            <p class="comparison-verdict" style="margin-top:16px;color:var(--ink);background:rgba(224,48,48,0.1);display:inline-block;padding:6px 12px;border-radius:6px;">= problem too broad, lack clear insights, problems not tie to solution</p>
+            <p class="comparison-verdict" style="margin-top:16px;color:var(--ink);background:rgba(224,48,48,0.1);display:inline-block;padding:6px 12px;border-radius:6px;">= problem too broad, lacks clear insights, problems don't tie to solutions</p>
           </div>
 
           <!-- Good example -->
@@ -1273,7 +1294,7 @@
               <div class="comparison-col">
                 <p class="comparison-col-label" style="color:#9A958E;">problems / context</p>
                 <p>people struggle with <b>work stress</b>. 86% of workers have experienced some level of stress in the past year.</p>
-                <p style="margin-top:12px;">Many research shows that people with <b>stronger social support tend to have less anxiety and depression.</b></p>
+                <p style="margin-top:12px;">Much research shows that people with <b>stronger social support tend to have less anxiety and depression.</b></p>
               </div>
               <div class="comparison-arrow">&longrightarrow;</div>
               <div class="comparison-col">
@@ -1293,7 +1314,7 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Deck Tip #5</p>
-            <div class="slide-heading">Talk about <span class="hl-blue">challenges</span> you faced in these parts</div>
+            <div class="slide-heading">Talk about <span class="hl-blue">challenges</span> you faced and how you <span class="hl-blue">overcame</span> them</div>
             <p class="slide-sub">cover different types of challenges: design / collaboration / ambiguity / complexity / technical constraints..etc</p>
           </div>
           <div class="slide-split-col" style="align-items:center;">
@@ -1316,7 +1337,7 @@
         <div class="slide-split">
           <div class="slide-split-col">
             <p class="tip-label">Portfolio Deck Tip #6</p>
-            <div class="slide-heading">Talk about <span class="hl-blue">various ideas</span> and how you <span class="hl-blue">informed decisions</span> with different considerations</div>
+            <div class="slide-heading">Talk about the <span class="hl-blue">ideas you explored</span> and how you <span class="hl-blue">weighed different factors</span> to make decisions</div>
             <p class="slide-sub">show your thinking! have 2+ options for your design/solutions, explain why you chose A not B, how you dealt with different needs</p>
           </div>
           <div class="slide-split-col" style="align-items:center;">
@@ -1344,7 +1365,7 @@
     <section class="panel panel-content" id="slide-28">
       <div class="panel-inner">
         <div class="slide-body">
-          <div class="slide-heading">Some ideas for portfolio projects that you can <span class="hl-blue">demonstrate needed skillset</span> and <span class="hl-blue">increase relevancy</span> to your future job</div>
+          <div class="slide-heading">Some portfolio project ideas that let you <span class="hl-blue">demonstrate the right skills</span> and <span class="hl-blue">increase relevance</span> to your target role</div>
         </div>
       </div>
     </section>
@@ -1353,24 +1374,24 @@
     <section class="panel panel-content" id="slide-29">
       <div class="panel-inner" style="justify-content:center;">
         <div class="slide-body" style="padding-bottom:36px;flex:none;">
-          <div class="slide-heading">Cover <span class="hl-blue">2 types of projects</span> to demonstrated needed skillset and scope</div>
+          <div class="slide-heading">Cover <span class="hl-blue">2 types of projects</span> to demonstrate the needed skillset and scope</div>
         </div>
         <div class="two-cards">
           <div class="project-card">
             <p class="project-card-label">0-1 Project</p>
             <ul>
               <li>team work, bigger scope</li>
-              <li>talk more about how you design homepage and core feature user flow</li>
-              <li>consider for scalability, mvp solution</li>
+              <li>talk more about how you designed the homepage and core user flows</li>
+              <li>show how you considered scalability and MVP tradeoffs</li>
             </ul>
             <p class="skills-text">skills: collaboration, problem-solving</p>
           </div>
           <div class="project-card">
             <p class="project-card-label">Growth / Redesign Project</p>
             <ul>
-              <li>solo work is doable</li>
+              <li>can be done as a solo project</li>
               <li>new feature / redesign for existing product</li>
-              <li>talk more design exploration and how to use existing patterns solving new problem</li>
+              <li>talk more about design exploration and how to use existing patterns to solve new problems</li>
             </ul>
             <p class="skills-text">skills: design, problem-solving</p>
           </div>
@@ -1381,26 +1402,101 @@
     <!-- ═══ PAGE 30: PROJECT RELEVANCY EXAMPLES ═══ -->
     <section class="panel panel-content" id="slide-30">
       <div class="panel-inner" style="justify-content:center;">
-        <div class="slide-body" style="padding-bottom:36px;flex:none;">
-          <div class="slide-heading">Think about how these projects can be <span class="hl-blue">relevant</span> to your future job</div>
+        <div class="slide-body" style="padding-bottom:24px;flex:none;">
+          <div class="slide-heading">Make your projects <span class="hl-blue">relevant</span> to your target role</div>
         </div>
-        <div class="two-cards">
-          <div class="project-card">
-            <p class="project-card-label">0-1 Project</p>
-            <ul>
-              <li>Maze, the <span class="hl-blue">AI agent</span> to help students manage their daily life</li>
-              <li>Maze, the home-and-pet sitting platform for <span class="hl-blue">travelers</span></li>
-            </ul>
-            <p class="skills-text">skills: collaboration, problem-solving</p>
+        <div style="display:flex;gap:8px;padding:0 64px 20px;">
+          <button class="idea-tab active" onclick="switchIdeaTab('ai',this)">AI Company</button>
+          <button class="idea-tab" onclick="switchIdeaTab('travel',this)">Travel Industry</button>
+          <button class="idea-tab" onclick="switchIdeaTab('google',this)">Google</button>
+        </div>
+        <div id="ideaTabContent">
+          <div class="two-cards idea-panel active" data-idea="ai">
+            <div class="project-card">
+              <p class="project-card-label">0-1 Project</p>
+              <ul>
+                <li>An <span class="hl-blue">AI writing assistant</span> that helps non-native speakers draft professional emails</li>
+                <li>A <span class="hl-blue">conversational AI tutor</span> that adapts lesson plans to each student&rsquo;s learning pace</li>
+              </ul>
+              <p class="skills-text">skills: collaboration, problem-solving</p>
+            </div>
+            <div class="project-card">
+              <p class="project-card-label">Growth / Redesign Project</p>
+              <ul>
+                <li>Redesign <span class="hl-blue">ChatGPT&rsquo;s</span> conversation history to support better retrieval and organization</li>
+                <li>Add <span class="hl-blue">AI-powered</span> smart replies to a customer support dashboard</li>
+              </ul>
+              <p class="skills-text">skills: design, problem-solving</p>
+            </div>
           </div>
-          <div class="project-card">
-            <p class="project-card-label">Growth / Redesign Project</p>
+          <div class="two-cards idea-panel" data-idea="travel">
+            <div class="project-card">
+              <p class="project-card-label">0-1 Project</p>
+              <ul>
+                <li>A <span class="hl-blue">group trip planner</span> that syncs itineraries, budgets, and votes across travelers</li>
+                <li>A <span class="hl-blue">local experience</span> marketplace connecting travelers with neighborhood hosts</li>
+              </ul>
+              <p class="skills-text">skills: collaboration, problem-solving</p>
+            </div>
+            <div class="project-card">
+              <p class="project-card-label">Growth / Redesign Project</p>
+              <ul>
+                <li>Redesign <span class="hl-blue">Airbnb&rsquo;s</span> check-in flow to reduce host-guest friction</li>
+                <li>Add personalized <span class="hl-blue">trip recommendations</span> to Google Travel based on past bookings</li>
+              </ul>
+              <p class="skills-text">skills: design, problem-solving</p>
+            </div>
+          </div>
+          <div class="two-cards idea-panel" data-idea="google">
+            <div class="project-card">
+              <p class="project-card-label">0-1 Project</p>
+              <ul>
+                <li>A <span class="hl-blue">Gemini-powered</span> study companion inside Google Classroom for K-12 students</li>
+                <li>A <span class="hl-blue">collaborative whiteboard</span> tool built into Google Meet for hybrid teams</li>
+              </ul>
+              <p class="skills-text">skills: collaboration, problem-solving</p>
+            </div>
+            <div class="project-card">
+              <p class="project-card-label">Growth / Redesign Project</p>
+              <ul>
+                <li>Redesign <span class="hl-blue">Google Maps</span> navigation for cyclists with safety-first routing</li>
+                <li>Add <span class="hl-blue">AI-powered</span> email drafting and summarization to Gmail inbox</li>
+              </ul>
+              <p class="skills-text">skills: design, problem-solving</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PAGE 30b: PROJECT DIVERSITY ═══ -->
+    <section class="panel panel-content" id="slide-30b">
+      <div class="panel-inner" style="justify-content:center;">
+        <div class="slide-body" style="padding-bottom:36px;flex:none;">
+          <div class="slide-heading">Increase your <span class="hl-blue">project diversity</span></div>
+        </div>
+        <div class="two-cards" style="display:flex;gap:24px;">
+          <div class="project-card" style="flex:1;">
+            <p class="project-card-label">Different Design Process</p>
             <ul>
-              <li>AI-powered navigation on <span class="hl-blue">Google Maps</span></li>
-              <li>trip-planning with <span class="hl-blue">ChatGPT</span> agent</li>
-              <li>co-watch video on <span class="hl-blue">YouTube</span></li>
+              <li>0-1 Project</li>
+              <li>Growth / Redesign Project</li>
             </ul>
-            <p class="skills-text">skills: design, problem-solving</p>
+          </div>
+          <div class="project-card" style="flex:1;">
+            <p class="project-card-label">Different Devices</p>
+            <ul>
+              <li>Web</li>
+              <li>App</li>
+            </ul>
+          </div>
+          <div class="project-card" style="flex:1;">
+            <p class="project-card-label">Different Industries</p>
+            <ul>
+              <li>Consumer Products</li>
+              <li>Business Tools</li>
+              <li>AI Tools</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1409,7 +1505,7 @@
     <!-- ═══ PAGE 31: SECTION DIVIDER ═══ -->
     <section class="panel panel-divider" id="slide-31">
       <div class="panel-inner">
-        <h1 class="divider-heading">Mock Interviewer Panel</h1>
+        <h1 class="divider-heading">Exercise: Play the Interviewer</h1>
       </div>
     </section>
 
@@ -1417,27 +1513,28 @@
     <section class="panel panel-content" id="slide-32">
       <div class="panel-inner" style="justify-content:flex-start;">
         <div style="padding:64px 64px 32px;">
-          <div class="slide-heading" style="font-size:clamp(32px, 4vw, 56px);"><span style="text-decoration:line-through;opacity:0.4;">Mock interview</span> <span style="margin:0 12px;opacity:0.4;">&rarr;</span> Mock Interviewer Panel</div>
+          <div class="slide-heading" style="font-size:clamp(32px, 4vw, 56px);"><span style="text-decoration:line-through;opacity:0.4;">Mock interview</span> <span style="margin:0 12px;opacity:0.4;">&rarr;</span> Exercise: Play the Interviewer</div>
           <p class="slide-sub" style="margin-top:16px;font-size:16px;">You're the interviewer — practicing how to evaluate, question, and assess candidates.</p>
         </div>
         <div style="display:flex;gap:24px;padding:0 64px 48px;">
           <div class="project-card" style="flex:1;">
             <p class="tip-label">Exercise #1 &bull; 5 Min</p>
-            <div class="slide-heading" style="font-size:clamp(20px, 2vw, 28px);">Applicant Review</div>
-            <p class="slide-sub" style="margin-top:8px;">Screen 10 applicants and select your top 3 to advance to the interview round.</p>
-            <a href="exercises.html" style="display:inline-block;margin-top:16px;font-family:var(--mono);font-size:13px;font-weight:600;color:#fff;background:var(--accent);padding:10px 20px;border-radius:8px;text-decoration:none;">Open Exercise &rarr;</a>
+            <div class="slide-heading" style="font-size:clamp(24px, 2.5vw, 36px);">Applicant Review</div>
+            <p class="slide-sub" style="margin-top:8px;">Screen 10 applicants and select your top 3 to advance to the interview round</p>
           </div>
           <div class="project-card" style="flex:1;">
             <p class="tip-label">Exercise #2 &bull; 20 Min</p>
-            <div class="slide-heading" style="font-size:clamp(20px, 2vw, 28px);">Portfolio Deck Review</div>
-            <p class="slide-sub" style="margin-top:8px;">Evaluate 3 portfolio decks and decide as a team which candidate to hire.</p>
-            <a href="exercises.html#ex2" style="display:inline-block;margin-top:16px;font-family:var(--mono);font-size:13px;font-weight:600;color:#fff;background:var(--accent);padding:10px 20px;border-radius:8px;text-decoration:none;">Open Exercise &rarr;</a>
+            <div class="slide-heading" style="font-size:clamp(24px, 2.5vw, 36px);">Portfolio Deck Review</div>
+            <p class="slide-sub" style="margin-top:8px;">Evaluate 3 portfolio decks and decide as a team which candidate to hire</p>
           </div>
           <div class="project-card" style="flex:1;">
-            <p class="tip-label">Sharing &bull; 5 Min</p>
-            <div class="slide-heading" style="font-size:clamp(20px, 2vw, 28px);">Who do you hire and why?</div>
-            <p class="slide-sub" style="margin-top:8px;">Each team shares their hiring decision and reasoning with the group.</p>
+            <p class="tip-label">Sharing &bull; 15 Min</p>
+            <div class="slide-heading" style="font-size:clamp(24px, 2.5vw, 36px);">Team share-out</div>
+            <p class="slide-sub" style="margin-top:8px;">Each team shares their hiring decision and reasoning with the group</p>
           </div>
+        </div>
+        <div style="padding:0 64px 48px;">
+          <a href="exercise.html" style="display:inline-block;font-family:var(--mono);font-size:13px;font-weight:600;color:#fff;background:var(--accent);padding:10px 20px;border-radius:8px;text-decoration:none;">Go to Exercise &rarr;</a>
         </div>
       </div>
     </section>
@@ -1447,6 +1544,13 @@
 </div>
 
 <script>
+  function switchIdeaTab(tab, btn) {
+    document.querySelectorAll('.idea-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.idea-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector('.idea-panel[data-idea="' + tab + '"]').classList.add('active');
+  }
+
   const main = document.getElementById('main');
   const panels = document.querySelectorAll('.panel');
   const allNavItems = document.querySelectorAll('.nav-item[data-target]');
@@ -1459,7 +1563,8 @@
   const stacks = [
     { panel: document.getElementById('slide-dt-stack'), slides: ['slide-05','slide-06','slide-07','slide-08'], idx: 0 },
     { panel: document.getElementById('slide-tip3-stack'), slides: ['slide-12','slide-13'], idx: 0 },
-    { panel: document.getElementById('slide-up2-stack'), slides: ['slide-18','slide-19'], idx: 0 }
+    { panel: document.getElementById('slide-up2-stack'), slides: ['slide-18','slide-19'], idx: 0 },
+    { panel: document.getElementById('slide-deck-tips-stack'), slides: ['slide-20','slide-21'], idx: 0 }
   ];
 
   const stackMap = {}; // slideId -> stack object
@@ -1492,14 +1597,14 @@
     'resume': ['slide-09','slide-10','slide-11','slide-12','slide-13','slide-14'],
     'portfolio-site': ['slide-15','slide-16','slide-17'],
     'portfolio-deck': ['slide-18','slide-19','slide-20','slide-21','slide-22','slide-23','slide-24','slide-25','slide-26'],
-    'pp-ideas': ['slide-28','slide-29','slide-30'],
+    'pp-ideas': ['slide-28','slide-29','slide-30','slide-30b'],
     'gd-exercises': ['slide-32']
   };
 
   // Parent nav group definitions
   const parentGroups = {
     'slide-04': /^slide-(0[4-9]|1[0-9]|2[0-6])$/,
-    'slide-27': /^slide-(2[7-9]|30)$/,
+    'slide-27': /^slide-(2[7-9]|30b?)$/,
     'slide-31': /^slide-(3[1-2])$/
   };
 
